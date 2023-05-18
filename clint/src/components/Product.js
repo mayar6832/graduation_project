@@ -4,23 +4,37 @@ import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import Button from '@mui/material/Button';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import NotificationsOutlinedIcon from '@mui/icons-material/NotificationsOutlined';
-import FacebookOutlinedIcon from '@mui/icons-material/FacebookOutlined';
-import IconButton from '@mui/material/IconButton';
-import TwitterIcon from '@mui/icons-material/Twitter';
+
+// import { useRef } from 'react';
 import Rating from '@mui/material/Rating';
-import Typography from '@mui/material/Typography';
-
+// import Typography from '@mui/material/Typography';
+import { FacebookShareButton, FacebookIcon } from 'react-share';
+import { TwitterShareButton, TwitterIcon } from 'react-share';
 import PriceChart from "./PriceChart";
+import RecomendationSystem from "./RecomendationSystem";
+import ReviewSection from "./Review";
+import { FavProduct,alertProduct } from "../actions/product";
+import { useDispatch } from "react-redux";
+import { useState } from "react";
 
+const Product = ({ product }) => {
+  const dispatch = useDispatch();
+  const [fav,setFav] = useState(product?.favourite);
 
+  const [alert,setAlert] = useState(product?.alert);
+  const toggleFav = ()=>{
+   const newfav =  dispatch(FavProduct(product._id));
+   setFav(newfav);
+    
+   }
 
-const Product = ({ product ,toggleFav,toggleAlert}) => {
-  // const toggleColor=()=>{
-  //   console.log(product.favourite);
-  //   product.favourite=!product.favourite;
-  //   console.log(product.favourite);
-
-  // }
+   const toggleAlert = ()=>{
+    const newAlert =  dispatch(alertProduct(product._id));
+    setAlert(newAlert);
+   }
+  // const url = window.location.href;
+  
+  // console.log(url)
   return (
     //parent grid container
     <Grid
@@ -43,8 +57,8 @@ const Product = ({ product ,toggleFav,toggleAlert}) => {
       {/* right column  */}
       <Grid item xs={12} md={8}>
         <Grid container>
-          <Grid item xs={12} md={12}>
-            <h2>{`${product.name} - ${product.storage} - ${product.color}`}</h2>
+          <Grid item xs={12} md={8}>
+            <h2>{`${product.name} `}</h2>
           </Grid>
           <Grid item xs={12} md={6}>
             <Grid container>
@@ -52,13 +66,13 @@ const Product = ({ product ,toggleFav,toggleAlert}) => {
               <Grid item xs={12} md={12}>
                
                 
-                <Typography component="legend">Read only</Typography>
-              <Rating name="read-only" value={product.rate} readOnly />
+
+              <Rating  value={ product.average_rating || 0} readOnly />
               </Grid>
               
-              <Grid item xs={12} md={12}>
+              {/* <Grid item xs={12} md={12}>
                 <p>{`this price was updated ${product.lastupdate} ago`}</p>
-              </Grid>
+              </Grid> */}
               <Grid item xs={12} md={12}>
               <Button
               onClick={toggleFav}
@@ -90,44 +104,47 @@ const Product = ({ product ,toggleFav,toggleAlert}) => {
                 <img
                   className="shops-logo"
                   alt="noon"
-                  src={product.noonLogo}
+                  src= 'https://cdn.vox-cdn.com/thumbor/TMB0K7PcIiuiI4dyRQgpY4U8OCA=/0x0:2040x1360/1400x1400/filters:focal(1020x680:1021x681)/cdn.vox-cdn.com/uploads/chorus_asset/file/23935560/acastro_STK103__03.jpg'
                 ></img>
               </Grid>
               <Grid item xs={8} md={8}>
                 <div className="pricebtn">
-                  <p style={{color:'#fff'}}>{`${product.noonPrice} EGB`}</p>
+                  <p style={{color:'#fff'}}>{`${product.price} EGB`}</p>
                 </div>
               </Grid>
-              <Grid item xs={4} md={3}>
-                <img
-                  className="shops-logo"
-                  src={product.amazonLogo}
-                  alt="aaaa"
-                />
-              </Grid>
-              <Grid item xs={8} md={8}>
-                <div className="pricebtn">
-                  <p style={{color:'#fff'}}> {`${product.amazonPrice} EGP` }  </p>
-                </div>
-              </Grid>
+              
               <Grid item md={4} xs={5}></Grid>
               <Grid item md={2} xs={2}>
               <Button
-              
+              disabled
               >
-              <p style={{fontWeight:'bold',color:'black'}}>Share</p>
+              <p style={{fontWeight:'bold',color:'black'}}>SHARE</p>
               </Button>
               </Grid>
              
               <Grid item md={1} xs={1}>
-              <IconButton sx={{mt:1.5}} >
-              <FacebookOutlinedIcon style={{color:'rgb(25, 118, 210)'}}/>
-              </IconButton>
+           
+              
+              <FacebookShareButton
+              
+                url={'https://www.youtube.com/watch?v=92S4zgXN17o'}
+                quote={'Dummy text!'}
+                hashtag="#MEMQ">
+                  
+            <FacebookIcon size={32} round style={{marginTop:15}} /> 
+              </FacebookShareButton>
+              
               </Grid>
               <Grid item md={1} xs={2}>
-              <IconButton sx={{mt:1.5}} >
-              <TwitterIcon style={{color:'rgb(25, 118, 210)'}}/>
-              </IconButton>
+    
+            <TwitterShareButton
+              url={'https://www.example.com'}
+              quote={'come and check this product!'}
+              hashtag="#MEMQ"
+
+            >
+              <TwitterIcon size={32} round  style={{marginTop:15}}/>
+              </TwitterShareButton>
               </Grid>
             </Grid>
           </Grid>
@@ -137,14 +154,25 @@ const Product = ({ product ,toggleFav,toggleAlert}) => {
         <h3 style={{paddingLeft:8}}> Technical specifications </h3>
       </Grid>
       <Grid item md={8} xs={10}>
-       {product.techSpecs.map(([key,value]) => {
+       {  product.techSpecs &&  product.techSpecs.map(([key,value]) => {
         return <p key={key}>{`${key}: ${value}`} </p>
        })}
+       
       </Grid>
        <Grid item md={10} xs={10}>
         
         <PriceChart />
         
+       
+       </Grid>
+       <Grid item md={10} xs={10}>
+       <RecomendationSystem/>
+       </Grid>
+     
+       <Grid item md={10} xs={10}>
+        <div style={{marginTop:15,paddingBottom:20}}>
+          { product.reviews && <ReviewSection  product = {product}/>}
+        </div>
        
        </Grid>
     </Grid>
