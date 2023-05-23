@@ -33,11 +33,11 @@ import { setLogin } from "state";
     const isLogin = pageType === "login";
    
 
-    // const handleFormSubmit = async (values, onSubmitProps) => { //call the backend
-    //     if (isLogin) await login(values, onSubmitProps);
+    const handleFormSubmit = async (values, onSubmitProps) => { //call the backend
+        if (isLogin) await login(values, onSubmitProps);
        
       
-    //   };
+      };
 
   
   const login = async (values, onSubmitProps) => {
