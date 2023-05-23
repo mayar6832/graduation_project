@@ -88,8 +88,48 @@ export const revProduct = async (req ,res) => {
         const product = await productMassage.findById(id);
         
         product.reviews.push(value);
-        // product.average_rating =+value.rate/product.reviews.length;  
+      
+       
+        const rateing = clacAverageRating(product.reviews) ;
+        console.log(rateing);
+        product.average_rating = rateing;
         const updatedProduct = await productMassage.findByIdAndUpdate(id,product,{new:true})
-        console.log(updatedProduct)
+        // console.log(updatedProduct)
         res.json(updatedProduct);
+}
+function clacAverageRating(revis){
+ const rev = revis;
+var one,two,three,four,five;
+one = two = three = four = five = 0;
+
+revis.forEach(rev => {
+  switch (rev.rate) {
+    case 1:
+      one++;
+    break;
+    case 2:
+      two++;
+    break;
+    case 3:
+      three++;
+    break;
+    case 4:
+      four++;
+    break;
+    case 5:
+      five++;
+    break;
+  
+    default:
+      break;
+  }
+});
+  
+
+ 
+ var total = one+two+three+four+five;
+ console.log(`one ${one} ,,, two ${two},,, 3 ${three},,, 4 ${four},,, 5 ${five}, ==> totla ${total}`)
+ const average_rating = (1*one+2*two+3*three+4*four+5*five)/total;
+ return average_rating;
+
 }

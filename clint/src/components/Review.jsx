@@ -5,8 +5,9 @@ import { RevProduct } from  '../actions/product';
 
 
 const ReviewSection = ({ product }) => {
+  const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
   const [rating, setRating] = useState(0);
-  const [review, setReview] = useState("");
+  const [review, setReview] = useState('');
   const [reviews,setReviews] = useState(product?.reviews)
   // const user = JSON.parse(localStorage.getItem('User'));
   
@@ -17,22 +18,32 @@ const ReviewSection = ({ product }) => {
   };
 
   const handleSubmit = async () => {
-    
+  
     // event.preventDefault();
-    if(rating === 0){
-      const finalComment = {
-        rate :null,
-        Comment: review,
-      }; 
-      const newReviwes= await dispatch(RevProduct(finalComment,product._id));
+    // if both rate and comment are empty and user clicked submit
+    if(rating === 0 && review === '' ){
+      return ;
+     
 
-      setReview('');
-      setReviews(newReviwes);
     }
+    // else if(rating === 0){
+    //   const finalComment = {
+    //     rate :null,
+    //     Comment: review,
+    //     date : date,
+    //   }; 
+    //   const newReviwes= await dispatch(RevProduct(finalComment,product._id));
+
+    //   setReview('');
+    //   setReviews(newReviwes);
+
+    // }
     else{
+    const date =  Date.now(); 
     const finalComment = {
       rate :rating,
       Comment: review,
+      date : date,
     };
     const newReviwes= await dispatch(RevProduct(finalComment,product._id));
     setRating(0);
@@ -62,7 +73,7 @@ const ReviewSection = ({ product }) => {
         bgcolor: 'background.paper',
         position: 'relative',
         overflow: 'auto',
-        maxHeight: 350,
+        maxHeight: 310,
         '& ul': { padding: 0 },
         
       }}
@@ -70,18 +81,21 @@ const ReviewSection = ({ product }) => {
           {  reviews.map((r)=>( 
              <ListItem key={r._id}>
             
-          <Paper  style={{borderRadius:50,backgroundColor:'gainsboro',margin:5 ,width:'100%'}}>
-            <Grid container spacing={1}>
+          <Paper  style={{borderRadius:50,backgroundColor:'gainsboro',margin:5 ,width:'100%',padding:8}}>
+           
+          
+              
+          <Box style={{paddingLeft:15,paddingTop:2, paddingBottom:8}}>
+          <Grid container spacing={1}>
             <Grid item>
             <Avatar alt="Remy Sharp" src="https://www.shutterstock.com/image-vector/male-figure-man-boy-profile-260nw-1647374107.jpg" />
               </Grid>
               <Grid item>
-              <Typography style={{paddingTop:7}} > John Doe </Typography>
+              <Typography style={{paddingTop:7}} > John Doe  </Typography>
               </Grid>  
+             <Grid item md ={12}  >
+              <Typography sx={{fontSize:12,padding:1,opacity:0.5}}> {new Date(r.date).toLocaleDateString('en-US',options)}</Typography></Grid>
               </Grid>
-          
-         
-          <Box style={{padding:30}}>
             <Grid container>
               <Grid item >
                 { r.rate &&
@@ -104,6 +118,7 @@ const ReviewSection = ({ product }) => {
           </div>
               </Grid>
               }
+              
               <Grid item md={9}>
                 { r.Comment &&
               <TextField
@@ -130,7 +145,7 @@ const ReviewSection = ({ product }) => {
             </div>:
             <Typography sx={{textAlign:"center"}}>  No Reviews Yet! </Typography>
             }
-            <Divider sx={{marginBottom:4,marginTop:4}}>Leave Review</Divider>
+            <Divider sx={{marginBottom:4,marginTop:4}}>Leave a Review</Divider>
       <Paper style={{borderRadius:50,backgroundColor:'gainsboro'}}>
       <Box style={{padding:30}}>
         <Grid container>
