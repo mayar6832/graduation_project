@@ -1,12 +1,10 @@
-const router=require('express').Router();
-const { model } = require('mongoose');
-//imoprt product model
-const product=require('../models/products');
-//import controller
-const products=require('../controllers/product')
+import express from "express";
+import productController from "../controllers/product.js";
 
+const router = express.Router();
 
-router.post('/search_product',products.searchProduct)
-router.post('/search_category',products.searchCategory)
+router.post('/search_product', productController.searchProduct);
+router.post('/search_category', productController.searchCategory);
+
 //export router
-module.exports=router;
+export default router;

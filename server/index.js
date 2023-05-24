@@ -1,21 +1,25 @@
-import express from "express";
 import bodyParser from "body-parser";
-import mongoose from "mongoose";
-import cors from "cors";
-import dotenv from "dotenv";
 import multer from "multer";
 import helmet from "helmet";
-
 import path from "path";
 import authRoutes from "./routes/auth.js";
 import userRoutes from "./routes/user.js";
 import { fileURLToPath } from "url";
+import productsRoutes from './routes/product.js';
+import db from './db/index.js';
+import express from "express";
+import cors from "cors"
+import dotenv from "dotenv"
+
+dotenv.config();
+
+
+const app = express();
 
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 dotenv.config();
-const app = express();
 app.use(express.json());
 app.use(helmet());
 app.use(helmet.crossOriginResourcePolicy({ policy: "cross-origin" }));
@@ -26,7 +30,6 @@ app.use(cors());
 
 app.use("/assets", express.static(path.join(__dirname, "public/assets")));
 
-
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
     cb(null, "public/assets");
@@ -36,16 +39,13 @@ const storage = multer.diskStorage({
   },
 });
 const upload = multer({ storage });
-
+//import router
 app.use("/auth", authRoutes);
 app.use("/user", userRoutes);
+app.use('/product', productsRoutes)
 const PORT = process.env.PORT || 8080;
 /*ان الport لو مشتغلش يشتغل على 6001 */
-mongoose
-  .connect(process.env.MONGO_URL, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-  })
+db()
   .then(() => {
     app.listen(PORT, () => console.log(`Server Port: ${PORT}`));
   })

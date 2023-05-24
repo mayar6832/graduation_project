@@ -1,5 +1,5 @@
-const request = require("request-promise");
-const fs = require("fs");
+import request from "request-promise";
+import fs from "fs";
 
 const apiKey = "214023c06cc55cb3866a5508858154e6";
 const ar = "ar_AE";

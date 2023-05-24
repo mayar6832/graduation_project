@@ -1,9 +1,11 @@
-require("dotenv").config();
-const db = require("../../db/index");
-const Product = require("../../models/products");
+import dotenv from "dotenv" ;
+import db from "../../db/index.js"
+import Product from"../../models/products.js";
+import fs from "fs"
 
 
-const fs = require("fs");
+dotenv.config()
+
 const categories = [
     "mobile",
     "tablet",
@@ -22,7 +24,7 @@ const categories = [
 ];
 
 async function run() {
-    await db.connect();
+    await db();
     await Product.deleteMany({});
     for (const category of categories) {
         // Read the file

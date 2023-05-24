@@ -15,7 +15,7 @@ function Search() {
     const [totalPages, setTotalPages] = useState();
     const [numProduct, setNumProduct] = useState([]);
     const getProduct = () => {
-        axios.post(`http://localhost:5500/product/search_product?page=${searchParams.get('page')}`,
+        axios.post(`http://localhost:3001/product/search_product?page=${searchParams.get('page')}`,
             { "search": searchParams.get("q") , "maxPrice": searchParams.get("priceto"), "minPrice": searchParams.get("pricefrom") })
             .then(res => {
                 console.log(res.data.data)

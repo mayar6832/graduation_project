@@ -18,7 +18,7 @@ function Categories() {
     const [numProduct, setNumProduct] = useState([]);
     useEffect(() => {
         const getProduct = () => {
-            axios.post(`http://localhost:5500/product/search_category?page=${searchParams.get('page')}`, {
+            axios.post(`http://localhost:3001/product/search_category?page=${searchParams.get('page')}`, {
                 "search":categoryName , "maxPrice": searchParams.get("priceto"), "minPrice": searchParams.get("pricefrom")
             })
                 .then(res => {

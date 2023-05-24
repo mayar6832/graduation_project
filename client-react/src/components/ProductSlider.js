@@ -13,7 +13,7 @@ function ProductSlider({ catName }) {
     const [items, setItems] = useState([]);
     useEffect(() => {
         const getProduct = () => {
-            axios.post(`http://localhost:5500/product/search_category?limit=${12}`, { "search": catName })
+            axios.post(`http://localhost:3001/product/search_category?limit=${12}`, { "search": catName })
                 .then(res => {
                     setItems(res.data.data)
                 })

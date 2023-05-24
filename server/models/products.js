@@ -1,5 +1,4 @@
-const mongoose = require("mongoose");
-require("mongoose-type-url");
+import mongoose from"mongoose";
 
 //create schema
 const productSchema = new mongoose.Schema({
@@ -20,4 +19,4 @@ const productSchema = new mongoose.Schema({
 //create a model
 const Product = mongoose.model("product", productSchema);
 //Export the model
-module.exports = Product;
+export default Product;
