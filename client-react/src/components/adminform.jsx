@@ -5,21 +5,12 @@ import { Formik } from "formik";
 import * as yup from "yup"; //validation library
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { setLogin } from "state";
 
-
-
-  
-  
   const loginSchema = yup.object().shape({
     email: yup.string().email("invalid email").required("required"),
     password: yup.string().required("required"),
   });
  
-
- 
-  
-  
   const initialValuesLogin = {
     email: "",
     password: "",
@@ -39,42 +30,19 @@ import { setLogin } from "state";
       
       };
 
+
   
   const login = async (values, onSubmitProps) => {
-    // Check if email exists in the database
-//   const checkEmailResponse = await fetch(
-//     `http://localhost:3001/auth/login/${values.email}`
-//   );
-//   const { exists } = await checkEmailResponse.json();
-//   if (!exists) {
-//     alert("This email address is not registered. Please sign up first.");
-//     return;
-//   }
+
 if(values.email==="admin@gmail.com"&& values.password==="123"){
   navigate("/dashbord");
 }
 else{
   navigate("/auth");
 }
-    // const loggedInResponse = await fetch("http://localhost:3001/auth/login", {
-    //   method: "POST",
-    //   headers: { "Content-Type": "application/json" },
-    //   body: JSON.stringify(values),
-    // });
-    // const loggedIn = await loggedInResponse.json();
 
     onSubmitProps.resetForm();
-    
-    // if (loggedIn) {
-    //   dispatch(
-    //     setLogin({
-    //       user: loggedIn.user,
-    //       token: loggedIn.token,
-    //     })
-    //   );
-      
-    //    navigate("/dashboard");
-    // }
+
     
   };
   
