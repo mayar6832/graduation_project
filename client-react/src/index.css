@@ -1,7 +1,8 @@
-*{
+* {
   margin: 0;
   padding: 0;
 }
+
 .more {
   display: inline-block;
   border: none;
@@ -14,11 +15,13 @@
 .more:hover {
   text-decoration: underline;
 }
-.line{
-  width: 1250px ;
+
+.line {
+  width: 1250px;
   margin-top: 25px;
   background-color: #EDEDED;
 }
-.catbutton{
-  background-color:black;
+
+.catbutton {
+  background-color: black;
 }
