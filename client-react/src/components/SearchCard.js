@@ -45,11 +45,14 @@ function SearchCard({ items, pages, length }) {
                     borderLeft: "1px outset #BDBDBD",
                     borderTop: "1px outset #BDBDBD",
                     borderBottom: "1px outset #BDBDBD",
+                    width:"100%"
                 }}
             >
                 <Typography
                     sx={{
-                        color: "text.secondary"
+                        color: "text.secondary",
+                        marginLeft :"auto",
+                        marginRight :"auto"
                     }}
                 >
                     {length} results from 2 stores

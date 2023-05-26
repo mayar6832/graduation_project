@@ -13,6 +13,7 @@ import Search from './pages/Search';
 import Categories from './pages/Categories';
 import BestSelling from './pages/BestSelling';
 import NewReleases from './pages/NewReleases';
+import "./App.css";
 
 function App() {
   const mode = useSelector((state) => state.mode);
