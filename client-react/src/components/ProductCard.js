@@ -11,11 +11,8 @@ import Container from '@mui/material/Container';
 
 function ProductCard({ item }) {
 
-    const theme = useTheme();
-    const matches = useMediaQuery(theme.breakpoints.up('sm'));
-
     return (
-        <Container maxWidth={matches ? 'lg' : 'sm'} >
+        <Container>
             <Card
                 sx={{
                     maxWidth: "220px",
@@ -26,7 +23,6 @@ function ProductCard({ item }) {
                 }}>
                 <CardActionArea>
                     <CardMedia
-
                         component="img"
                         height="220"
                         image={item.image}

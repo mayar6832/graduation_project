@@ -9,18 +9,18 @@ import Box from '@mui/material/Box';
 import Pagination from '@mui/material/Pagination';
 import Stack from '@mui/material/Stack';
 import { useState } from "react";
-import { useSearchParams , useNavigate } from "react-router-dom";
+import { useSearchParams, useNavigate } from "react-router-dom";
 import amazonLogo from './../images/amazonLogo.png';
 import { Grid } from '@mui/material';
 import { useEffect } from 'react';
 
 function SearchCard({ items, pages, length }) {
     const [page, setPage] = useState(1)
-    const navigate=useNavigate()
+    const navigate = useNavigate()
     const [searchParams, setSearchParams] = useSearchParams();
     useEffect(() => {
         searchParams.set("page", page)
-        setSearchParams(searchParams,{ replace: page==1 })
+        setSearchParams(searchParams, { replace: page == 1 })
     }, [page]);
     const handleChange = (e, p) => {
         console.log(e, p)
@@ -50,8 +50,7 @@ function SearchCard({ items, pages, length }) {
                 <Typography
                     sx={{
                         color: "text.secondary",
-                        marginLeft :"auto",
-                        marginRight :"auto"
+                        textAlign: "center"
                     }}
                 >
                     {length} results from 2 stores
