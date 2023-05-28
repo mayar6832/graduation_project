@@ -1,8 +1,8 @@
 import { useState } from "react";
-import { Box, Button, TextField,useMediaQuery,Typography,useTheme} from "@mui/material";
+import { Box, Button, TextField, useMediaQuery, Typography, useTheme } from "@mui/material";
 import { GoogleOAuthProvider } from "@react-oauth/google";
 import { GoogleLogin } from "@react-oauth/google";
-
+import { useSelector } from "react-redux";
 import { Formik } from "formik";
 import * as yup from "yup"; //validation library
 import { useNavigate } from "react-router-dom";
@@ -12,6 +12,7 @@ import Dropzone from "react-dropzone";
 import FlexBetween from "components/FlexBetween";
 import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
 import axios from "axios";
+import { setPageType as setPageTypeAction } from "state";
 
 const registerSchema = yup.object().shape({
   firstName: yup.string().required("required"),
@@ -46,7 +47,7 @@ const initialValuesLogin = {
 
 const url = process.env.API_URL || "http://localhost:3001";
 const Form = () => {
-  const [pageType, setPageType] = useState("login");
+  const pageType = useSelector((state) => state.pageType);
   const { palette } = useTheme();
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -54,7 +55,9 @@ const Form = () => {
   let isLogin = pageType === "login";
   let isRegister = pageType === "register";
 
-  
+  const setPageType = (value) => {
+    dispatch(setPageTypeAction(value));
+  }
   const handleFormSubmit = async (values, onSubmitProps) => {
     if (isLogin) await login(values, onSubmitProps);
     if (isRegister) await register(values, onSubmitProps);
@@ -200,7 +203,7 @@ const Form = () => {
         resetForm,
       }) => (
         <>
-     
+
           <form onSubmit={handleSubmit}>
             <Box
               display="grid"
@@ -216,7 +219,7 @@ const Form = () => {
                   <TextField
                     label="First Name"
                     onBlur={handleBlur}
-                    
+
                     onChange={handleChange}
                     value={values.firstName}
                     name="firstName"
@@ -240,7 +243,7 @@ const Form = () => {
                   />
                   <Box
                     gridColumn="span 4"
-                    border={`1px solid ${palette.neutral.medium}`}
+                    border={`1px solid ${palette.neutral?.medium}`}
                     borderRadius="5px"
                     p="1rem"
                   >
@@ -318,7 +321,7 @@ const Form = () => {
                 </>
               )}
             </Box>
-   
+
             {/* BUTTONS */}
             <Box>
               <Button
@@ -353,40 +356,40 @@ const Form = () => {
                   : "Already have an account? Login here."}
               </Typography>
               <Box
-        width="100%"
-      
-        p="rem 1%"
-        textAlign="center"
-      >
-        <Typography f fontSize="15px" color="palette.info.light">
-          OR
-        </Typography>
-      </Box>
-            <Box
-            display="grid"
-            gap="30px"
-            textAlign="center"
-            paddingTop="15px"
-            gridTemplateColumns="repeat(4, minmax(0, 1fr))"
-            sx={{
-              "& > div": { gridColumn: isNonMobile ? undefined : "span 4" },
-            }}>
-              <Box sx={{ gridColumn: "span 4" }}>
-            <GoogleOAuthProvider clientId="627049741310-f6cpla0sufgrnnam6pjl47v6l1op8d56.apps.googleusercontent.com">
-              <GoogleLogin
-            
-                onSuccess={(credentialResponse) => {
-                  googleSignIn(credentialResponse);
-                  console.log(credentialResponse);
-                }}
-                onError={() => {
-                  console.log("Login Failed");
-                }}
-                sx={{ width: "100%", margin: "0 auto" }}
-              />
-            </GoogleOAuthProvider>
-            </Box>
-            {/* <Button
+                width="100%"
+
+                p="rem 1%"
+                textAlign="center"
+              >
+                <Typography f fontSize="15px" color="palette.info.light">
+                  OR
+                </Typography>
+              </Box>
+              <Box
+                display="grid"
+                gap="30px"
+                textAlign="center"
+                paddingTop="15px"
+                gridTemplateColumns="repeat(4, minmax(0, 1fr))"
+                sx={{
+                  "& > div": { gridColumn: isNonMobile ? undefined : "span 4" },
+                }}>
+                <Box sx={{ gridColumn: "span 4" }}>
+                  <GoogleOAuthProvider clientId="627049741310-f6cpla0sufgrnnam6pjl47v6l1op8d56.apps.googleusercontent.com">
+                    <GoogleLogin
+
+                      onSuccess={(credentialResponse) => {
+                        googleSignIn(credentialResponse);
+                        console.log(credentialResponse);
+                      }}
+                      onError={() => {
+                        console.log("Login Failed");
+                      }}
+                      sx={{ width: "100%", margin: "0 auto" }}
+                    />
+                  </GoogleOAuthProvider>
+                </Box>
+                {/* <Button
               variant="outlined"
               sx={{
                 color: palette.primary.main,
@@ -404,7 +407,7 @@ const Form = () => {
             >
               Sign in with Google
             </Button> */}
-          </Box>
+              </Box>
             </Box>
           </form>
         </>

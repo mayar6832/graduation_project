@@ -18,6 +18,8 @@ import Link from '@mui/material/Link';
 import { Link as RouterLink, NavLink, useNavigate } from 'react-router-dom';
 import { useSearchParams } from "react-router-dom";
 import Button from '@mui/material/Button';
+import { useDispatch } from "react-redux";
+import { setPageType } from "state";
 
 const Search = styled('div')(({ theme }) => ({
     position: 'relative',
@@ -60,6 +62,7 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 }));
 
 export default function NavBar() {
+    const dispatch = useDispatch();
     const [searchParams] = useSearchParams();
     const [searchValue, setSearchValue] = React.useState(searchParams.get("q"));
     const navigate = useNavigate()
@@ -149,6 +152,15 @@ export default function NavBar() {
             </MenuItem>
         </Menu>
     );
+    const handleLogin = () => {
+        dispatch(setPageType("login"));
+        navigate("/auth");
+    }
+
+    const handleRegister = () => {
+        dispatch(setPageType("register"));
+        navigate("/auth");
+    }
 
     return (
         <Box sx={{ flexGrow: 1 }}>
@@ -160,7 +172,7 @@ export default function NavBar() {
                             noWrap
                             component="div"
                             color="#090979"
-                            sx={{ display: { xs: 'block', sm: 'block' }, mr: 4 ,ml:2}}
+                            sx={{ display: { xs: 'block', sm: 'block' }, mr: 4, ml: 2 }}
                         >
                             MEMQ
                         </Typography>
@@ -179,29 +191,31 @@ export default function NavBar() {
                             onKeyDown={handleSearch}
                         />
                     </Search>
-                    <Box sx={{ flexGrow: 1 }} /> 
-                     <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
-                    <Button
-                        variant="contained"
-                        aria-label="register"
-                        sx={{
-                            marginLeft: "auto",
-                            backgroundColor: "#2F77C6",
-                            textTransform: "capitalize"
-                        }}
-                    >
-                        Login
-                    </Button>
-                    <Button
-                        variant="contained"
-                        sx={{
-                            marginLeft: 1,
-                            backgroundColor: "#2F77C6",
-                            textTransform: "capitalize"
-                        }}
-                    >
-                        Register
-                    </Button>
+                    <Box sx={{ flexGrow: 1 }} />
+                    <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
+                        <Button
+                            variant="contained"
+                            aria-label="register"
+                            sx={{
+                                marginLeft: "auto",
+                                backgroundColor: "#2F77C6",
+                                textTransform: "capitalize"
+                            }}
+                            onClick={handleLogin}
+                        >
+                            Login
+                        </Button>
+                        <Button
+                            variant="contained"
+                            sx={{
+                                marginLeft: 1,
+                                backgroundColor: "#2F77C6",
+                                textTransform: "capitalize"
+                            }}
+                            onClick={handleRegister}
+                        >
+                            Register
+                        </Button>
                     </Box>
                     <Box sx={{ display: { xs: 'flex', md: 'none' } }}>
                         <IconButton
