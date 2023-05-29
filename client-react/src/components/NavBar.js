@@ -109,6 +109,7 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 
 export default function NavBar() {
     const dispatch = useDispatch();
+    const isAuth = Boolean(useSelector((state) => state.token));
     const [anchorEl2, setAnchorEl2] = React.useState(null);
     const open = Boolean(anchorEl2);
     const handleClick = (event) => {
@@ -178,36 +179,98 @@ export default function NavBar() {
         <Menu
             anchorEl={mobileMoreAnchorEl}
             anchorOrigin={{
-                vertical: 'top',
-                horizontal: 'right',
+                vertical: "top",
+                horizontal: "right",
             }}
             id={mobileMenuId}
             keepMounted
             transformOrigin={{
-                vertical: 'top',
-                horizontal: 'right',
+                vertical: "top",
+                horizontal: "right",
             }}
             open={isMobileMenuOpen}
             onClose={handleMobileMenuClose}
         >
-            <MenuItem>
-                <IconButton
-                    size="large"
-                    aria-label="register"
-                    color="inherit"
-                >
-                </IconButton>
-                <p>Register</p>
-            </MenuItem>
-            <MenuItem>
-                <IconButton
-                    size="large"
-                    aria-label="login"
-                    color="inherit"
-                >
-                </IconButton>
-                <p>Login</p>
-            </MenuItem>
+            {!isAuth ? (
+                <>
+                    <MenuItem>
+                        <IconButton
+                            size="large"
+                            aria-label="register"
+                            color="inherit"
+                        ></IconButton>
+                        <p>Register</p>
+                    </MenuItem>
+                    <MenuItem>
+                        <IconButton
+                            size="large"
+                            aria-label="login"
+                            color="inherit"
+                        ></IconButton>
+                        <p>Login</p>
+                    </MenuItem>
+                </>
+            ) : (
+                <>
+                    <MenuItem>
+                        <Button
+                            variant="text"
+                            id="demo-customized-button"
+                            aria-controls={open ? "demo-customized-menu" : undefined}
+                            aria-haspopup="true"
+                            aria-expanded={open ? "true" : undefined}
+                            disableElevation
+                            onClick={handleClick}
+                            endIcon={<KeyboardArrowDownIcon />}
+                            sx={{ color: "black", textTransform: "capitalize" }}
+                        >
+                            Yara zakaria
+                        </Button>
+                    </MenuItem>
+
+                    <StyledMenu
+                        id="demo-customized-menu"
+                        MenuListProps={{
+                            "aria-labelledby": "demo-customized-button",
+                        }}
+                        anchorEl={anchorEl2}
+                        open={open}
+                        onClose={handleClose}
+                    >
+                        <MenuItem
+                            component={RouterLink}
+                            to="/profile"
+                            onClick={handleClose}
+                            disableRipple
+                        >
+                            My Profile
+                        </MenuItem>
+                        <MenuItem onClick={handleClose} disableRipple>
+                            My Wish Lists
+                        </MenuItem>
+                        <MenuItem onClick={handleClose} disableRipple>
+                            My Reviews
+                        </MenuItem>
+                        <Divider sx={{ my: 0.5 }} />
+
+                        <MenuItem onClick={handelSignOut} disableRipple>
+                            Sign out
+                        </MenuItem>
+                    </StyledMenu>
+
+                    <MenuItem>
+                        <IconButton
+                            size="large"
+                            aria-label="show 17 new notifications"
+                            color="inherit"
+                        >
+                            <Badge badgeContent={17} color="error">
+                                <NotificationsIcon />
+                            </Badge>
+                        </IconButton>
+                    </MenuItem>
+                </>
+            )}
         </Menu>
     );
     const handleLogin = () => {
@@ -219,7 +282,7 @@ export default function NavBar() {
         dispatch(setPageType("register"));
         navigate("/auth");
     }
-    const isAuth = Boolean(useSelector((state) => state.token));
+
     return (
         <Box sx={{ flexGrow: 1 }}>
             <AppBar position="static" style={{ background: '#a2a7a7' }}>
@@ -251,7 +314,7 @@ export default function NavBar() {
                     </Search>
                     <Box sx={{ flexGrow: 1 }} />
                     <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
-                    {!isAuth ? <>
+                        {!isAuth ? <>
                             <Button
                                 variant="contained"
                                 aria-label="register"
@@ -276,54 +339,54 @@ export default function NavBar() {
                                 Register
                             </Button>
                         </>
-                        :<>
-                            <Button
-                                variant="text"
-                                id="demo-customized-button"
-                                aria-controls={open ? 'demo-customized-menu' : undefined}
-                                aria-haspopup="true"
-                                aria-expanded={open ? 'true' : undefined}
-                                disableElevation
-                                onClick={handleClick}
-                                endIcon={<KeyboardArrowDownIcon />}
-                                sx={{ color: 'white', textTransform: "capitalize", }}
-                            >
-                                Yara zakaria
-                            </Button>
-                            <StyledMenu
-                                id="demo-customized-menu"
-                                MenuListProps={{
-                                    'aria-labelledby': 'demo-customized-button',
-                                }}
-                                anchorEl={anchorEl2}
-                                open={open}
-                                onClose={handleClose}
-                            >
-                                <MenuItem component={RouterLink} to="/profile" onClick={handleClose} disableRipple>
-                                    My Profile
-                                </MenuItem>
-                                <MenuItem onClick={handleClose} disableRipple>
-                                    My Wish Lists
-                                </MenuItem>
-                                <MenuItem onClick={handleClose} disableRipple>
-                                    My Reviews
-                                </MenuItem>
-                                <Divider sx={{ my: 0.5 }} />
- 
-                                <MenuItem onClick={handelSignOut} disableRipple>
-                                    Sign out
-                                </MenuItem>
-                            </StyledMenu>
-                            <IconButton
-                                size="large"
-                                aria-label="show 17 new notifications"
-                                color="inherit"
-                            >
-                                <Badge badgeContent={17} color="error">
-                                    <NotificationsIcon />
-                                </Badge>
-                            </IconButton>
-                        </>}
+                            : <>
+                                <Button
+                                    variant="text"
+                                    id="demo-customized-button"
+                                    aria-controls={open ? 'demo-customized-menu' : undefined}
+                                    aria-haspopup="true"
+                                    aria-expanded={open ? 'true' : undefined}
+                                    disableElevation
+                                    onClick={handleClick}
+                                    endIcon={<KeyboardArrowDownIcon />}
+                                    sx={{ color: 'white', textTransform: "capitalize", }}
+                                >
+                                    Yara zakaria
+                                </Button>
+                                <StyledMenu
+                                    id="demo-customized-menu"
+                                    MenuListProps={{
+                                        'aria-labelledby': 'demo-customized-button',
+                                    }}
+                                    anchorEl={anchorEl2}
+                                    open={open}
+                                    onClose={handleClose}
+                                >
+                                    <MenuItem component={RouterLink} to="/profile" onClick={handleClose} disableRipple>
+                                        My Profile
+                                    </MenuItem>
+                                    <MenuItem onClick={handleClose} disableRipple>
+                                        My Wish Lists
+                                    </MenuItem>
+                                    <MenuItem onClick={handleClose} disableRipple>
+                                        My Reviews
+                                    </MenuItem>
+                                    <Divider sx={{ my: 0.5 }} />
+
+                                    <MenuItem onClick={handelSignOut} disableRipple>
+                                        Sign out
+                                    </MenuItem>
+                                </StyledMenu>
+                                <IconButton
+                                    size="large"
+                                    aria-label="show 17 new notifications"
+                                    color="inherit"
+                                >
+                                    <Badge badgeContent={17} color="error">
+                                        <NotificationsIcon />
+                                    </Badge>
+                                </IconButton>
+                            </>}
                     </Box>
                     <Box sx={{ display: { xs: 'flex', md: 'none' } }}>
                         <IconButton
