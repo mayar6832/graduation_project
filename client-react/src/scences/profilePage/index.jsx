@@ -1,5 +1,4 @@
 import { Box, useTheme, useMediaQuery, Typography } from "@mui/material";
-import { setLogout } from "state";
 import { useDispatch } from "react-redux";
 import UserWidget from "scences/widgets/UserWidget";
 
@@ -19,9 +18,6 @@ const ProfilePage = () => {
         p="rem 6%"
         textAlign="center"
       >
-        {/* button logout */}
-        <button onClick={() => dispatch(setLogout())}>Logout</button>
-
         <Typography fontWeight="bold" fontSize="45px" color="info.main">
           MEMQ
         </Typography>

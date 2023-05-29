@@ -20,6 +20,52 @@ import { useSearchParams } from "react-router-dom";
 import Button from '@mui/material/Button';
 import { useDispatch } from "react-redux";
 import { setPageType } from "state";
+import Divider from '@mui/material/Divider';
+import { setLogout } from "state";
+import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
+import { useSelector } from "react-redux";
+
+
+const StyledMenu = styled((props) => (
+    <Menu
+        elevation={0}
+        anchorOrigin={{
+            vertical: 'bottom',
+            horizontal: 'right',
+        }}
+        transformOrigin={{
+            vertical: 'top',
+            horizontal: 'right',
+        }}
+        {...props}
+    />
+))(({ theme }) => ({
+    '& .MuiPaper-root': {
+        borderRadius: 6,
+        marginTop: theme.spacing(1),
+        minWidth: 180,
+        color:
+            theme.palette.mode === 'light' ? 'rgb(55, 65, 81)' : theme.palette.grey[300],
+        boxShadow:
+            'rgb(255, 255, 255) 0px 0px 0px 0px, rgba(0, 0, 0, 0.05) 0px 0px 0px 1px, rgba(0, 0, 0, 0.1) 0px 10px 15px -3px, rgba(0, 0, 0, 0.05) 0px 4px 6px -2px',
+        '& .MuiMenu-list': {
+            padding: '4px 0',
+        },
+        '& .MuiMenuItem-root': {
+            '& .MuiSvgIcon-root': {
+                fontSize: 18,
+                color: theme.palette.text.secondary,
+                marginRight: theme.spacing(1.5),
+            },
+            '&:active': {
+                backgroundColor: alpha(
+                    theme.palette.primary.main,
+                    theme.palette.action.selectedOpacity,
+                ),
+            },
+        },
+    },
+}));
 
 const Search = styled('div')(({ theme }) => ({
     position: 'relative',
@@ -63,6 +109,18 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 
 export default function NavBar() {
     const dispatch = useDispatch();
+    const [anchorEl2, setAnchorEl2] = React.useState(null);
+    const open = Boolean(anchorEl2);
+    const handleClick = (event) => {
+        setAnchorEl2(event.currentTarget);
+    };
+    const handleClose = () => {
+        setAnchorEl2(null);
+    };
+    const handelSignOut = (event) => {
+        handleClose();
+        dispatch(setLogout());
+    };
     const [searchParams] = useSearchParams();
     const [searchValue, setSearchValue] = React.useState(searchParams.get("q"));
     const navigate = useNavigate()
@@ -161,7 +219,7 @@ export default function NavBar() {
         dispatch(setPageType("register"));
         navigate("/auth");
     }
-
+    const isAuth = Boolean(useSelector((state) => state.token));
     return (
         <Box sx={{ flexGrow: 1 }}>
             <AppBar position="static" style={{ background: '#a2a7a7' }}>
@@ -193,29 +251,79 @@ export default function NavBar() {
                     </Search>
                     <Box sx={{ flexGrow: 1 }} />
                     <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
-                        <Button
-                            variant="contained"
-                            aria-label="register"
-                            sx={{
-                                marginLeft: "auto",
-                                backgroundColor: "#2F77C6",
-                                textTransform: "capitalize"
-                            }}
-                            onClick={handleLogin}
-                        >
-                            Login
-                        </Button>
-                        <Button
-                            variant="contained"
-                            sx={{
-                                marginLeft: 1,
-                                backgroundColor: "#2F77C6",
-                                textTransform: "capitalize"
-                            }}
-                            onClick={handleRegister}
-                        >
-                            Register
-                        </Button>
+                    {!isAuth ? <>
+                            <Button
+                                variant="contained"
+                                aria-label="register"
+                                sx={{
+                                    marginLeft: "auto",
+                                    backgroundColor: "#2F77C6",
+                                    textTransform: "capitalize"
+                                }}
+                                onClick={handleLogin}
+                            >
+                                Login
+                            </Button>
+                            <Button
+                                variant="contained"
+                                sx={{
+                                    marginLeft: 1,
+                                    backgroundColor: "#2F77C6",
+                                    textTransform: "capitalize"
+                                }}
+                                onClick={handleRegister}
+                            >
+                                Register
+                            </Button>
+                        </>
+                        :<>
+                            <Button
+                                variant="text"
+                                id="demo-customized-button"
+                                aria-controls={open ? 'demo-customized-menu' : undefined}
+                                aria-haspopup="true"
+                                aria-expanded={open ? 'true' : undefined}
+                                disableElevation
+                                onClick={handleClick}
+                                endIcon={<KeyboardArrowDownIcon />}
+                                sx={{ color: 'white', textTransform: "capitalize", }}
+                            >
+                                Yara zakaria
+                            </Button>
+                            <StyledMenu
+                                id="demo-customized-menu"
+                                MenuListProps={{
+                                    'aria-labelledby': 'demo-customized-button',
+                                }}
+                                anchorEl={anchorEl2}
+                                open={open}
+                                onClose={handleClose}
+                            >
+                                <MenuItem component={RouterLink} to="/profile" onClick={handleClose} disableRipple>
+                                    My Profile
+                                </MenuItem>
+                                <MenuItem onClick={handleClose} disableRipple>
+                                    My Wish Lists
+                                </MenuItem>
+                                <MenuItem onClick={handleClose} disableRipple>
+                                    My Reviews
+                                </MenuItem>
+                                <Divider sx={{ my: 0.5 }} />
+ 
+                                <MenuItem onClick={handelSignOut} disableRipple>
+                                    Sign out
+                                </MenuItem>
+                            </StyledMenu>
+                            <IconButton
+                                size="large"
+                                aria-label="show 17 new notifications"
+                                color="inherit"
+                            >
+                                <Badge badgeContent={17} color="error">
+                                    <NotificationsIcon />
+                                </Badge>
+                            </IconButton>
+                        </>}
                     </Box>
                     <Box sx={{ display: { xs: 'flex', md: 'none' } }}>
                         <IconButton

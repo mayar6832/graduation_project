@@ -2,7 +2,6 @@ import { BrowserRouter, Navigate, Routes, Route } from "react-router-dom";
 import Loginpage from "scences/loginpage";
 import Adminloginpage from "scences/adminloginpage";
 import ProfilePage from "scences/profilePage";
-import Homepage from "scences/homepage";
 import { useMemo } from "react";
 import { useSelector } from "react-redux";
 import { CssBaseline, ThemeProvider } from "@mui/material";
@@ -19,8 +18,6 @@ function App() {
   const mode = useSelector((state) => state.mode);
   const theme = useMemo(() => createTheme(themeSettings(mode)), [mode]);
   const isAuth = Boolean(useSelector((state) => state.token));
-  const  state= useSelector((state) => state);
-  console.log(state)
   return (
     <div className="app">
       <BrowserRouter>
@@ -32,15 +29,9 @@ function App() {
           <Route path="category/:categoryName" element={<Categories />} />
           <Route path="/BestSelling" element={<BestSelling />} />
           <Route path="/NewReleases" element={<NewReleases />} />
-          <Route path="/auth"
-            element={!isAuth ? < Loginpage /> : <Navigate to="/home" />} />
+          <Route path="/auth" element={!isAuth ? < Loginpage /> : <Navigate to="/" />} />
           <Route path="/admin" element={<Adminloginpage />} />
-          <Route path="/home" element={< Homepage />} />
-
-          <Route
-            path="/profile"
-            element={isAuth ? <ProfilePage /> : <Navigate to="/auth" />}
-          />
+          <Route path="/profile" element={isAuth ? <ProfilePage /> : <Navigate to="/auth" />}/>
         </Routes>
         {/* </ThemeProvider> */}
       </BrowserRouter>
