@@ -5,12 +5,11 @@ import CardMedia from "@mui/material/CardMedia";
 import Typography from "@mui/material/Typography";
 import { CardActionArea, Hidden } from "@mui/material";
 import Tooltip from '@mui/material/Tooltip';
-import useMediaQuery from '@mui/material/useMediaQuery';
-import { useTheme } from '@mui/material';
+import { useSelector } from "react-redux";
 import Container from '@mui/material/Container';
 
 function ProductCard({ item }) {
-
+    const isAuth = Boolean(useSelector((state) => state.token));
     return (
         <Container>
             <Card
@@ -34,9 +33,12 @@ function ProductCard({ item }) {
                                 {item.name}
                             </Typography>
                         </Tooltip>
-                        <Typography variant="body2" color="text.secondary" textAlign="center">
-                            Price from {item.provider}
-                        </Typography>
+                        {!isAuth ?
+                            <></>
+                            : <> <Typography variant="body2" color="text.secondary" textAlign="center">
+                                Price from {item.provider}
+                            </Typography>
+                            </>}
                         <Typography color="#2F77C6" fontWeight="bold" textAlign="center">
                             {item.priceSymbol} {item.price}
                         </Typography>

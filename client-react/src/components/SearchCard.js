@@ -7,12 +7,13 @@ import Link from "@mui/material/Link";
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import Pagination from '@mui/material/Pagination';
-import Stack from '@mui/material/Stack';
 import { useState } from "react";
 import { useSearchParams, useNavigate } from "react-router-dom";
 import amazonLogo from './../images/amazonLogo.png';
 import { Grid } from '@mui/material';
 import { useEffect } from 'react';
+import { useSelector } from "react-redux";
+import Button from '@mui/material/Button';
 
 function SearchCard({ items, pages, length }) {
     const [page, setPage] = useState(1)
@@ -27,7 +28,7 @@ function SearchCard({ items, pages, length }) {
         setPage(p)
 
     }
-
+    const isAuth = Boolean(useSelector((state) => state.token));
     return (
 
         <Box
@@ -88,44 +89,64 @@ function SearchCard({ items, pages, length }) {
                                     </Link>
                                 }
                             />
+
                             <Box
                                 justifyContent="space-between"
                             >
-                                <ListItemText
-                                    primary={
-                                        <Typography
-                                            component={'span'}
+                                {!isAuth ?
+                                    <>
+                                        <Button
+                                            variant="contained"
                                             sx={{
-                                                color: "#838B8B",
-                                                fontWeight: "bold",
-                                                textAlign: "center",
-                                                border: "1px outset #BDBDBD",
-                                                padding: "3px",
-                                                marginBottom: "10px",
-                                                maxWidth: "200px",
-                                                minWidth: "200px",
-                                                display: "block"
+                                                marginLeft: 1,
+                                                backgroundColor: "#2F77C6",
+                                                textTransform: "capitalize",
+                                                minWidth: "200px" ,
+                                                
                                             }}
+                                            
                                         >
-                                            {item.priceSymbol} {item.price}
-                                        </Typography>}
-                                    secondary={
-                                        <Box
-                                            component={'span'}
-                                            sx={{ minWidth: "200px" }}
-                                            display="flex"
-                                            alignItems="center"
-                                            justifyContent="center"
+                                           Buy now
+                                        </Button>
+                                    </>
+                                    : <>
+                                        <ListItemText
+                                            primary={
+                                                <Typography
+                                                    component={'span'}
+                                                    sx={{
+                                                        color: "#838B8B",
+                                                        fontWeight: "bold",
+                                                        textAlign: "center",
+                                                        border: "1px outset #BDBDBD",
+                                                        padding: "3px",
+                                                        marginBottom: "10px",
+                                                        maxWidth: "200px",
+                                                        minWidth: "200px",
+                                                        display: "block"
+                                                    }}
+                                                >
+                                                    {item.priceSymbol} {item.price}
+                                                </Typography>}
+                                            secondary={
+                                                <Box
+                                                    component={'span'}
+                                                    sx={{ minWidth: "200px" }}
+                                                    display="flex"
+                                                    alignItems="center"
+                                                    justifyContent="center"
 
-                                        >
-                                            <Link href={item.url} underline="hover">
-                                                <Typography component={'span'} sx={{ display: "block" }}>Buy it from </Typography>
-                                                <img src={amazonLogo} style={{ height: 60 }} />
-                                            </Link>
-                                        </Box>
-                                    }
-                                />
+                                                >
+                                                    <Link href={item.url} underline="hover">
+                                                        <Typography component={'span'} sx={{ display: "block" }}>Buy it from </Typography>
+                                                        <img src={amazonLogo} style={{ height: 60 }} />
+                                                    </Link>
+                                                </Box>
+                                            }
+                                        />
+                                    </>}
                             </Box>
+
                         </ListItem>
                         <Divider variant="middle" />
 

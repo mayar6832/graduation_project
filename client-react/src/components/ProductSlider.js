@@ -3,7 +3,6 @@ import Carousel from "react-simply-carousel";
 import ProductCard from "./ProductCard";
 import { useState } from "react";
 import { Stack } from "@mui/system";
-import { useSearchParams } from "react-router-dom";
 import axios from 'axios';
 import { useEffect } from 'react';
 import { Link } from 'react-router-dom'
