@@ -1,39 +1,41 @@
-import * as React from 'react';
-import List from '@mui/material/List';
-import ListItem from '@mui/material/ListItem';
-import Divider from '@mui/material/Divider';
-import ListItemText from '@mui/material/ListItemText';
+import * as React from "react";
+import List from "@mui/material/List";
+import ListItem from "@mui/material/ListItem";
+import Divider from "@mui/material/Divider";
+import ListItemText from "@mui/material/ListItemText";
 import Link from "@mui/material/Link";
-import Typography from '@mui/material/Typography';
-import Box from '@mui/material/Box';
-import Pagination from '@mui/material/Pagination';
+import Typography from "@mui/material/Typography";
+import Box from "@mui/material/Box";
+import Pagination from "@mui/material/Pagination";
 import { useState } from "react";
 import { useSearchParams, useNavigate } from "react-router-dom";
-import amazonLogo from './../images/amazonLogo.png';
-import { Grid } from '@mui/material';
-import { useEffect } from 'react';
+import amazonLogo from "./../images/amazonLogo.png";
+import { Grid } from "@mui/material";
+import { useEffect } from "react";
 import { useSelector } from "react-redux";
-import Button from '@mui/material/Button';
+import Button from "@mui/material/Button";
+import Card from "@mui/material/Card";
+import CardContent from "@mui/material/CardContent";
+import CardMedia from "@mui/material/CardMedia";
+import { CardActionArea, CardActions } from "@mui/material";
 
 function SearchCard({ items, pages, length }) {
-    const [page, setPage] = useState(1)
-    const navigate = useNavigate()
+    const [page, setPage] = useState(1);
+    const navigate = useNavigate();
     const [searchParams, setSearchParams] = useSearchParams();
     useEffect(() => {
-        searchParams.set("page", page)
-        setSearchParams(searchParams, { replace: page == 1 })
+        searchParams.set("page", page);
+        setSearchParams(searchParams, { replace: page == 1 });
     }, [page]);
     const handleChange = (e, p) => {
-        console.log(e, p)
-        setPage(p)
-
-    }
+        console.log(e, p);
+        setPage(p);
+    };
     const isAuth = Boolean(useSelector((state) => state.token));
     return (
-
         <Box
             sx={{
-                width: '80%',
+                width: "80%",
                 display: "flex",
                 flexDirection: "column",
                 ml: "auto",
@@ -42,7 +44,7 @@ function SearchCard({ items, pages, length }) {
             <List
                 sx={{
                     margin: "10px",
-                    bgcolor: 'background.paper',
+                    bgcolor: "background.paper",
                     borderLeft: "1px outset #BDBDBD",
                     borderTop: "1px outset #BDBDBD",
                     borderBottom: "1px outset #BDBDBD",
@@ -51,105 +53,118 @@ function SearchCard({ items, pages, length }) {
                 <Typography
                     sx={{
                         color: "text.secondary",
-                        textAlign: "center"
+                        textAlign: "center",
                     }}
                 >
                     {length} results from 2 stores
                 </Typography>
                 <Divider
                     sx={{
-                        mt: "5px"
+                        mt: "5px",
                     }}
                 />
 
                 {items?.map((item, index) => (
-                    <div key={index}>
+                    <div style={{ width: "100%" }} key={index}>
                         <ListItem
                             sx={{
                                 alignItems: "center",
                                 justifyItems: "start",
-                                maxWidth: "1200px",
-                                height: "200px",
+                                width: "100%",
                             }}
                         >
-                            <Box
-                                component="img"
+                            <Card
                                 sx={{
-                                    width: "200px",
-                                    height: "200px",
-                                    objectFit: "cover"
+                                    display: "flex",
+                                    //   maxWidth: "1200px",
+                                    width: "100%",
+                                    flexDirection: { xs: "column", lg: "row" },
                                 }}
-                                alt={item.name}
-                                src={item.image}
-                            />
-                            <ListItemText
-                                primary={
-                                    <Link gutterBottom variant="h6" component="div" underline="hover">
-                                        {item.name}
-                                    </Link>
-                                }
-                            />
-
-                            <Box
-                                justifyContent="space-between"
                             >
-                                {!isAuth ?
-                                    <>
+                                <CardMedia
+                                    component="img"
+                                    height="200"
+                                    sx={{ maxWidth: "400px" }}
+                                    image={item.image}
+                                    alt={item.name}
+                                />
+                                <CardContent>
+                                    <Typography
+                                        variant="h6"
+                                        component={Link}
+                                        underline="hover"
+                                        gutterBottom
+                                    >
+                                        {item.name}
+                                    </Typography>
+                                </CardContent>
+
+                                <CardActions sx={{ marginLeft: { lg: "auto" } }}>
+                                    {!isAuth ? (
                                         <Button
                                             variant="contained"
                                             sx={{
                                                 marginLeft: 1,
                                                 backgroundColor: "#2F77C6",
                                                 textTransform: "capitalize",
-                                                minWidth: "200px" ,
-                                                
+                                                minWidth: "200px",
                                             }}
-                                            
                                         >
-                                           Buy now
+                                            Buy now
                                         </Button>
-                                    </>
-                                    : <>
-                                        <ListItemText
-                                            primary={
-                                                <Typography
-                                                    component={'span'}
-                                                    sx={{
-                                                        color: "#838B8B",
-                                                        fontWeight: "bold",
-                                                        textAlign: "center",
-                                                        border: "1px outset #BDBDBD",
-                                                        padding: "3px",
-                                                        marginBottom: "10px",
-                                                        maxWidth: "200px",
-                                                        minWidth: "200px",
-                                                        display: "block"
-                                                    }}
-                                                >
-                                                    {item.priceSymbol} {item.price}
-                                                </Typography>}
-                                            secondary={
-                                                <Box
-                                                    component={'span'}
-                                                    sx={{ minWidth: "200px" }}
-                                                    display="flex"
-                                                    alignItems="center"
-                                                    justifyContent="center"
-
-                                                >
-                                                    <Link href={item.url} underline="hover">
-                                                        <Typography component={'span'} sx={{ display: "block" }}>Buy it from </Typography>
-                                                        <img src={amazonLogo} style={{ height: 60 }} />
-                                                    </Link>
-                                                </Box>
-                                            }
-                                        />
-                                    </>}
-                            </Box>
-
+                                    ) : (
+                                        <>
+                                            <ListItemText
+                                                sx={{
+                                                    display: "flex",
+                                                    flexDirection: "column",
+                                                    justifyContent: "center",
+                                                    alignItems: "center",
+                                                }}
+                                                primary={
+                                                    <Typography
+                                                        component={"span"}
+                                                        sx={{
+                                                            color: "#838B8B",
+                                                            fontWeight: "bold",
+                                                            textAlign: "center",
+                                                            border: "1px outset #BDBDBD",
+                                                            padding: "3px",
+                                                            marginBottom: "10px",
+                                                            maxWidth: "200px",
+                                                            minWidth: "200px",
+                                                            display: "block",
+                                                        }}
+                                                    >
+                                                        {item.priceSymbol} {item.price}
+                                                    </Typography>
+                                                }
+                                                secondary={
+                                                    <Box
+                                                        component={"span"}
+                                                        sx={{ minWidth: "200px" }}
+                                                        display="flex"
+                                                        alignItems="center"
+                                                        justifyContent="center"
+                                                    >
+                                                        <Link href={item.url} underline="hover">
+                                                            <Typography
+                                                                component={"span"}
+                                                                sx={{ display: "block" }}
+                                                            >
+                                                                Buy it from{" "}
+                                                            </Typography>
+                                                            <img src={amazonLogo} style={{ height: 60 }} />
+                                                        </Link>
+                                                    </Box>
+                                                }
+                                            />
+                                        </>
+                                    )}
+                                </CardActions>
+                            </Card>
                         </ListItem>
                         <Divider variant="middle" />
-
                     </div>
                 ))}
             </List>
@@ -165,7 +180,6 @@ function SearchCard({ items, pages, length }) {
                 </Grid>
             </Grid>
         </Box>
-
     );
 }
 export default SearchCard;
