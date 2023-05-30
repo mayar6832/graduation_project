@@ -1,14 +1,16 @@
-import ProductSlider from './../components/ProductSlider';
-import CategoryButton from './../components/CategoryButton';
-import NavBar from './../components/NavBar';
-import Footer from './../components/Footer';
+import ProductSlider from "./../components/ProductSlider";
+import CategoryButton from "./../components/CategoryButton";
+import NavBar from "./../components/NavBar";
+import Footer from "./../components/Footer";
 
 const catCrousels = [
+    "BestSelling",
+    "NewReleases",
     "Mobile",
     "Tablet",
     "Beauty",
     "Sports",
-    "Book",
+    "Book"
 ];
 function Search() {
     return (
@@ -16,12 +18,10 @@ function Search() {
             <NavBar />
             <CategoryButton />
             {catCrousels?.map((catCrousel, index) => (
-            <ProductSlider catName={catCrousel} key={index}/>
+                <ProductSlider catName={catCrousel} key={index} />
             ))}
             <Footer />
         </>
-
-
     );
 }
 
