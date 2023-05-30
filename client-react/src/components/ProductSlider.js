@@ -64,7 +64,14 @@ function ProductSlider({ catName }) {
           <h2 className="child" style={styles.child}>
             {catName}
           </h2>
-          <Link className="more" to={`category/${encodeURIComponent(catName)}`}>
+          <Link
+            className="more"
+            to={
+              catName !== "BestSelling" && catName !== "NewReleases"
+                ? `category/${encodeURIComponent(catName)}`
+                : `/${encodeURIComponent(catName)}`
+            }
+          >
             More
           </Link>
         </div>
