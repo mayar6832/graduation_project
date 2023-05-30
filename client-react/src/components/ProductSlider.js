@@ -23,8 +23,8 @@ function ProductSlider({ catName }) {
           {
             ...(catName !== "BestSelling" &&
               catName !== "NewReleases" && { search: catName }),
-            ...(catName !== "BestSelling" && { isBestSeller: true }),
-            ...(catName !== "NewReleases" && { newrelease: true }),
+            ...(catName === "BestSelling" && { isBestSeller: true }),
+            ...(catName === "NewReleases" && { newrelease: true }),
           }
         )
         .then((res) => {

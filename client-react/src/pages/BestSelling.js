@@ -42,12 +42,10 @@ function BestSelling() {
     return (
         <>
             <NavBar />
-
             <Stack direction="row" spacing={2}>
                 <PriceFilter />
                 <SearchCard items={items} pages={totalPages} length={numProduct} />
             </Stack>
-
             <Footer />
         </>
     );
