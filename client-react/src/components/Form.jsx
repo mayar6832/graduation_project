@@ -145,7 +145,7 @@ const Form = () => {
           user: data.user,
         })
       );
-      navigate("/home");
+      navigate("/");
     } catch (error) {
       console.log(error);
       alert(error.response.data.msg);

@@ -1,7 +1,8 @@
 import { Box, useTheme, useMediaQuery, Typography } from "@mui/material";
-import { setLogout } from "state";
 import { useDispatch } from "react-redux";
 import UserWidget from "scences/widgets/UserWidget";
+import NavBar from "./../../components/NavBar";
+import Footer from "./../../components/Footer";
 
 const ProfilePage = () => {
   const dispatch = useDispatch();
@@ -13,20 +14,7 @@ const ProfilePage = () => {
 
   return (
     <Box>
-      <Box
-        width="100%"
-        backgroundColor={theme.palette.background.alt}
-        p="rem 6%"
-        textAlign="center"
-      >
-        {/* button logout */}
-        <button onClick={() => dispatch(setLogout())}>Logout</button>
-
-        <Typography fontWeight="bold" fontSize="45px" color="info.main">
-          MEMQ
-        </Typography>
-      </Box>
-
+      <NavBar />
       <Box
         width={isNonMobileScreens ? "50%" : "93%"}
         p="2rem"
@@ -36,6 +24,7 @@ const ProfilePage = () => {
       >
         <UserWidget />
       </Box>
+      <Footer />
     </Box>
   );
 };
