@@ -1,5 +1,5 @@
 import express from "express";
-import { getUser, updateUser } from "../controllers/user.js";
+import { getUser, updateUser , getUserReviews,getUserWishlist,deleteWishListItem} from "../controllers/user.js";
 import multer from "multer";
 
 const router = express.Router();
@@ -16,5 +16,8 @@ const upload = multer({ storage });
 
 router.put("/update", upload.single("picture"), updateUser);
 router.get("/:_id", getUser);
+router.get("/:id/reviews", getUserReviews);
+router.get('/:id/wish',getUserWishlist);
+router.put('/:id/wish',deleteWishListItem);
 
 export default router;
