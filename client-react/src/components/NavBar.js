@@ -150,7 +150,9 @@ export default function NavBar() {
     setMobileMoreAnchorEl(null);
   };
 
+  
   const handleMenuClose = () => {
+
     setAnchorEl(null);
     handleMobileMenuClose();
   };
@@ -158,6 +160,15 @@ export default function NavBar() {
   const handleMobileMenuOpen = (event) => {
     setMobileMoreAnchorEl(event.currentTarget);
   };
+
+  const wishList = ()=>{
+    navigate('/wish');
+    handleMenuClose();
+  }
+  const reviewss = ()=>{
+    navigate('/myReviews');
+    handleMenuClose();
+  }
 
   const menuId = "primary-search-account-menu";
   const renderMenu = (
@@ -251,10 +262,10 @@ export default function NavBar() {
             >
               My Profile
             </MenuItem>
-            <MenuItem onClick={handleClose} disableRipple>
+            <MenuItem onClick={wishList} disableRipple>
               My Wish Lists
             </MenuItem>
-            <MenuItem onClick={handleClose} disableRipple>
+            <MenuItem onClick={reviewss} disableRipple>
               My Reviews
             </MenuItem>
             <Divider sx={{ my: 0.5 }} />
@@ -270,7 +281,7 @@ export default function NavBar() {
               aria-label="show 17 new notifications"
               color="inherit"
             >
-              <Badge badgeContent={17} color="error">
+              <Badge badgeContent={11} color="error">
                 <NotificationsIcon />
               </Badge>
             </IconButton>

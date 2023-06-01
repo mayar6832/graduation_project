@@ -31,6 +31,9 @@ function SearchCard({ items, pages, length }) {
         console.log(e, p);
         setPage(p);
     };
+    const openProduct= (id)=>{
+        navigate(`/product/${id}`);
+       }
     const isAuth = Boolean(useSelector((state) => state.token));
     return (
         <Box
@@ -67,6 +70,7 @@ function SearchCard({ items, pages, length }) {
                 {items?.map((item, index) => (
                     <div style={{ width: "100%" }} key={index}>
                         <ListItem
+                        onClick={()=>openProduct(item._id)}
                             sx={{
                                 alignItems: "center",
                                 justifyItems: "start",

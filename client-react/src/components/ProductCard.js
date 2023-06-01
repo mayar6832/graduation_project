@@ -10,8 +10,9 @@ import Container from '@mui/material/Container';
 import {useNavigate} from "react-router-dom";
 
  
-  const isAuth = Boolean(useSelector((state) => state.token));
+  
 function ProductCard({ item,deleteItem }) {
+    const isAuth = Boolean(useSelector((state) => state.token));
     const tmp = JSON.parse(window.localStorage.getItem("persist:root")).user;
     const user = JSON.parse(tmp);
 
