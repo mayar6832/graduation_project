@@ -10,6 +10,7 @@ import Pagination from "@mui/material/Pagination";
 import { useState } from "react";
 import { useSearchParams, useNavigate } from "react-router-dom";
 import amazonLogo from "./../images/amazonLogo.png";
+import jumiaLogo from "./../images/JumiaLogo.png";
 import { Grid } from "@mui/material";
 import { useEffect } from "react";
 import { useSelector } from "react-redux";
@@ -31,7 +32,11 @@ function SearchCard({ items, pages, length }) {
         console.log(e, p);
         setPage(p);
     };
+    const openProduct= (id)=>{
+        navigate(`/product/${id}`);
+       }
     const isAuth = Boolean(useSelector((state) => state.token));
+
     return (
         <Box
             sx={{
@@ -67,6 +72,7 @@ function SearchCard({ items, pages, length }) {
                 {items?.map((item, index) => (
                     <div style={{ width: "100%" }} key={index}>
                         <ListItem
+                        onClick={()=>openProduct(item._id)}
                             sx={{
                                 alignItems: "center",
                                 justifyItems: "start",

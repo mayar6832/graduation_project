@@ -7,36 +7,37 @@ import { CardActionArea, Hidden } from "@mui/material";
 import Tooltip from '@mui/material/Tooltip';
 import { useSelector } from "react-redux";
 import Container from '@mui/material/Container';
-import {useNavigate} from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
- 
-  const isAuth = Boolean(useSelector((state) => state.token));
-function ProductCard({ item,deleteItem }) {
+
+
+function ProductCard({ item, deleteItem }) {
+    const isAuth = Boolean(useSelector((state) => state.token));
     const tmp = JSON.parse(window.localStorage.getItem("persist:root")).user;
     const user = JSON.parse(tmp);
 
-const navigate = useNavigate();
-   const openProduct= ()=>{
-    navigate(`/product/${item._id}`);
-   }
-//to delete product from wishlist
-   const delProduct= ()=>{
-    console.log(item._id);
-    deleteItem(item._id,user._id);
-   }
-
-   
-//   deleteItem(item._id,user._id);
+    const navigate = useNavigate();
+    const openProduct = () => {
+        navigate(`/product/${item._id}`);
+    }
+    //to delete product from wishlist
+    const delProduct = () => {
+        console.log(item._id);
+        deleteItem(item._id, user._id);
+    }
 
 
-  
+    //   deleteItem(item._id,user._id);
+
+
+
 
     return (
         <Container>
-             {/* <button onClick={delProduct}> del </button> */}
+            {/* <button onClick={delProduct}> del </button> */}
             <Card
-            onClick={openProduct}
-            
+                onClick={openProduct}
+
                 sx={{
                     maxWidth: "220px",
                     width: "295px",
@@ -44,7 +45,7 @@ const navigate = useNavigate();
                     marginTop: "25px"
 
                 }}>
-                   
+
                 <CardActionArea>
                     <CardMedia
                         component="img"

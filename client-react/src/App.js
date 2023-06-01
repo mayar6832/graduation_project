@@ -2,8 +2,6 @@ import { BrowserRouter, Navigate, Routes, Route } from "react-router-dom";
 import Loginpage from "scences/loginpage";
 import Adminloginpage from "scences/adminloginpage";
 import ProfilePage from "scences/profilePage";
-import Homepage from "scences/homepage";
-import { useMemo } from "react";
 import { useSelector } from "react-redux";
 // import { CssBaseline, ThemeProvider } from "@mui/material";
 // import { createTheme } from "@mui/material/styles";
