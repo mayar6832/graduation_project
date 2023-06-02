@@ -15,10 +15,9 @@ function ProductSlider({ catName }) {
     const getProduct = () => {
       axios
         .post(
-          `http://localhost:3001/product/${
-            catName === "BestSelling" || catName === "NewReleases"
-              ? "search_product"
-              : "search_category"
+          `http://localhost:3001/product/${catName === "BestSelling" || catName === "NewReleases"
+            ? "search_product"
+            : "search_category"
           }?limit=${12}`,
           {
             ...(catName !== "BestSelling" &&
@@ -121,7 +120,7 @@ function ProductSlider({ catName }) {
         easing="linear"
         infinite={false}
       >
-        {items.map((item, index) => (
+        {items?.map((item, index) => (
           <ProductCard item={item} key={index} />
         ))}
       </Carousel>

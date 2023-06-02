@@ -61,9 +61,16 @@ function ProductCard({ item, deleteItem }) {
                         </Tooltip>
                         {!isAuth ?
                             <></>
-                            : <> <Typography variant="body2" color="text.secondary" textAlign="center">
-                                Price from {item.provider}
-                            </Typography>
+                            : <>
+                                {item.provider === "Amazon" ? (
+                                    <Typography variant="body2" color="text.secondary" textAlign="center">
+                                        Price from Amazon
+                                    </Typography>
+                                ) : (
+                                    <Typography variant="body2" color="text.secondary" textAlign="center">
+                                        Price from Jumia
+                                    </Typography>
+                                )}
                             </>}
                         <Typography color="#2F77C6" fontWeight="bold" textAlign="center">
                             {item.priceSymbol} {item.price}
@@ -72,8 +79,6 @@ function ProductCard({ item, deleteItem }) {
                 </CardActionArea>
             </Card >
         </Container>
-
-
     );
 }
 export default ProductCard;

@@ -59,7 +59,7 @@ const files = [
     "entertainment",
     "fashion",
     "food",
-    "phone",
+    "mobile",
     "sport",
     "tablet",
     "television",

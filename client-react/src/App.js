@@ -22,7 +22,7 @@ function App() {
   const isAuth = Boolean(useSelector((state) => state.token));
   return (
     <div className="app">
-      
+
       <BrowserRouter>
         {/* <ThemeProvider theme={theme}> */}
         {/* <CssBaseline /> */}
@@ -30,18 +30,14 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/search" element={<Search />} />
           <Route path="category/:categoryName" element={<Categories />} />
-          <Route path="/product/:id" element={<ProductPage/>} />
+          <Route path="/product/:id" element={<ProductPage />} />
           <Route path="/BestSelling" element={<BestSelling />} />
           <Route path="/NewReleases" element={<NewReleases />} />
           <Route path="/myReviews" element={<UserReviews />} />
           <Route path="/wish" element={<UserWishList />} />
           <Route path="/auth" element={!isAuth ? < Loginpage /> : <Navigate to="/" />} />
           <Route path="/admin" element={<Adminloginpage />} />
-          <Route path="/profile" element={isAuth ? <ProfilePage /> : <Navigate to="/auth" />}/>
-
-         
-
-          
+          <Route path="/profile" element={isAuth ? <ProfilePage /> : <Navigate to="/auth" />} />
         </Routes>
         {/* </ThemeProvider> */}
       </BrowserRouter>
