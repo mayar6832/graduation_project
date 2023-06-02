@@ -92,7 +92,7 @@ function SearchCard({ items, pages, length }) {
                                 <CardMedia
                                     component="img"
                                     height="200"
-                                    sx={{ maxWidth: "400px" }}
+                                    sx={{ maxWidth: "350px", objectFit: "contain" }}
                                     image={item.image}
                                     alt={item.name}
                                 />

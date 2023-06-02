@@ -50,6 +50,7 @@ function ProductCard({ item, deleteItem }) {
                     <CardMedia
                         component="img"
                         height="220"
+                        sx={{ maxWidth: "350px", objectFit: "contain" }}
                         image={item.image}
                         alt={item.name}
                     />
