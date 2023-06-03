@@ -125,7 +125,9 @@ function ProductSlider({ catName }) {
           },
         }}
       >
-        {items?.map((item, index) => (
+
+        {items && items.map((item, index) => (
+
           <ProductCard item={item} key={index} />
         ))}
       </Carousel>

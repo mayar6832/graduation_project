@@ -13,10 +13,11 @@ import ReviewSection from "./Review";
 import {favouriteProduct,alertProduct} from '../../axios';
 
 import React ,{useState} from 'react';
+import { Typography } from "@mui/material";
 
 
 
-const Product = ({ product }) => {
+const Product = ({ product,recomendations }) => {
   const tmp = JSON.parse(window.localStorage.getItem("persist:root")).user;
   const user = JSON.parse(tmp);
   const userId = user._id;
@@ -24,7 +25,7 @@ const Product = ({ product }) => {
 
   function printObject(obj) {
     return Object.entries(obj).map(([key, value]) => (
-      <p key={key} >{`${key} : ${value}`}</p>
+      <p style={{marginLeft:10,marginBottom:1}} key={key} >{`${key} : ${value}`}</p>
     ));
     
   }
@@ -66,16 +67,13 @@ const Product = ({ product }) => {
       {/* right column  */}
       <Grid item xs={12} md={8}>
         <Grid container>
-          <Grid item xs={12} md={8}>
-            <h2>{`${product.name} `}</h2>
+          <Grid item xs={12} md={7}>
+            <Typography variant="h6" >{`${product.name} `}</Typography>
           </Grid>
           <Grid item xs={12} md={6}>
             <Grid container>
               {/* items of the left coulumn */}
               <Grid item xs={12} md={12}>
-               
-                
-
               <Rating  value={ product.average_rating || 0} readOnly />
               </Grid>
               
@@ -88,7 +86,7 @@ const Product = ({ product }) => {
               className="btn"
                startIcon={fav?<FavoriteOutlinedIcon style={{cursor:'pointer',display:'flex'}} onClick={toggleFav} sx={{color:'red'}} />:<FavoriteBorderIcon style={{cursor:'pointer'}}  onClick={toggleFav}/>} 
               >
-              <p>Add to favourite</p>
+              {fav? <p>REMOVE FROM WISHLIST</p> :<p>Add TO WISHLIST</p>}    
               </Button>
               </Grid>
               <Grid item xs={12} md={12}>
@@ -97,7 +95,7 @@ const Product = ({ product }) => {
               onClick={toggleAlert}
                startIcon={alert?<NotificationsIcon style={{cursor:'pointer',display:'flex'}} onClick={toggleAlert} sx={{color:'green'}} />:<NotificationsOutlinedIcon style={{cursor:'pointer'}}  onClick={toggleAlert}/>} 
               >
-              <p>Set price alert</p>
+               {alert? <p>REMOVE PRICE ALERT</p>  :<p>SET PRICE ALERT</p>}
               </Button>
               </Grid>
             </Grid>
@@ -122,12 +120,14 @@ const Product = ({ product }) => {
                 </div>
               </Grid>
               
-              <Grid item md={4} xs={5}></Grid>
+              <Grid item md={4} xs={5}>
+               
+              </Grid>
               <Grid item md={2} xs={2}>
               <Button
               disabled
               >
-              <p style={{fontWeight:'bold',color:'black'}}>SHARE</p>
+              <p style={{fontWeight:'bold',color:'black',marginTop:15}}>SHARE</p>
               </Button>
               </Grid>
              
@@ -160,7 +160,14 @@ const Product = ({ product }) => {
         </Grid>
       </Grid>
       <Grid item md={10} xs={10}>
-        <h3 style={{paddingLeft:5}}>Product Specifications </h3>
+        <Typography variant="h6" sx={{fontWeight:'bold',marginBottom:1}} >Product Description </Typography>
+      </Grid>
+      <Grid item md={10} xs={10}>
+
+   <Typography variant="body2" style={{marginLeft:10,marginBottom:1}}> {product.fullDescription}</Typography>     
+      </Grid>
+      <Grid item md={10} xs={10}>
+        <Typography variant="h6" style={{fontWeight:'bold', marginBottom:1}}>Product Specifications </Typography>
       </Grid>
       <Grid item md={8} xs={10}>
        {  product.productInformation && printObject(product.productInformation) }
@@ -173,7 +180,7 @@ const Product = ({ product }) => {
        
        </Grid>
        <Grid item md={10} xs={10}>
-       <RecomendationSystem/>
+       <RecomendationSystem recomendations={recomendations}/>
        </Grid>
      
        <Grid item md={10} xs={10}>

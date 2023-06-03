@@ -16,11 +16,11 @@ const ReviewSection = ({ product }) => {
     const pic = user.picturePath;
     
     const uId = user._id;
-     console.log(uId);
+    //  console.log(uId);
     // console.log(pic)
 
     // console.log(userName);
-    console.log(user);
+    // console.log(user);
   
 
   const handleChange = (event) => {
@@ -193,9 +193,9 @@ const ReviewSection = ({ product }) => {
       />
           </Grid>
           <Grid item md={3} sm={12}  > 
-          <div style={{textAlign:"center"}}>
+        
         <Button style={{borderRadius:50, display:"flex", float: 'right' ,marginTop:10}} variant="contained" onClick={handleSubmit}>Submit</Button>
-        </div>
+        
         </Grid>
         </Grid>
       

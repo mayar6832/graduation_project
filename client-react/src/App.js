@@ -2,6 +2,8 @@ import { BrowserRouter, Navigate, Routes, Route } from "react-router-dom";
 import Loginpage from "scences/loginpage";
 import Adminloginpage from "scences/adminloginpage";
 import ProfilePage from "scences/profilePage";
+
+
 import { useSelector } from "react-redux";
 // import { CssBaseline, ThemeProvider } from "@mui/material";
 // import { createTheme } from "@mui/material/styles";
@@ -15,6 +17,9 @@ import "./App.css";
 import ProductPage from "pages/ProductPage";
 import UserReviews from "pages/UserReviews";
 import UserWishList from "pages/UserWishList";
+import NavBar from "./components/NavBar";
+import Footer from "./components/Footer";
+import Coupon from "pages/Coupon";
 
 function App() {
   // const mode = useSelector((state) => state.mode);
@@ -24,13 +29,18 @@ function App() {
     <div className="app">
 
       <BrowserRouter>
+      <NavBar />
         {/* <ThemeProvider theme={theme}> */}
         {/* <CssBaseline /> */}
         <Routes>
           <Route path="/" element={<Home />} />
+          <Route path="/coupon" element={<Coupon />} />
           <Route path="/search" element={<Search />} />
           <Route path="category/:categoryName" element={<Categories />} />
-          <Route path="/product/:id" element={<ProductPage />} />
+
+          
+          <Route path="/product/:id" element={ <ProductPage/>} />
+ 
           <Route path="/BestSelling" element={<BestSelling />} />
           <Route path="/NewReleases" element={<NewReleases />} />
           <Route path="/myReviews" element={<UserReviews />} />
@@ -39,6 +49,7 @@ function App() {
           <Route path="/admin" element={<Adminloginpage />} />
           <Route path="/profile" element={isAuth ? <ProfilePage /> : <Navigate to="/auth" />} />
         </Routes>
+        <Footer />
         {/* </ThemeProvider> */}
       </BrowserRouter>
     </div>
