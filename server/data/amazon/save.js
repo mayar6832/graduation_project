@@ -1,6 +1,6 @@
-import dotenv from "dotenv" ;
+import dotenv from "dotenv";
 import db from "../../db/index.js"
-import Product from"../../models/products.js";
+import Product from "../../models/products.js";
 import fs from "fs"
 
 
@@ -22,6 +22,29 @@ const categories = [
     "food",
     "beverages",
 ];
+
+const getOldPrices = (price) => {
+    // Based on the U.S. Bureau of Labor Statistics: The BLS is a federal agency that collects data on prices and wages. The BLS publishes a monthly report called the Consumer Price Index (CPI), which tracks the change in prices for a basket of goods and services. The CPI can be used to calculate the inflation rate, which is the rate at which prices are rising.
+    // Month | Average Change Percentage
+    // ------- | ------------------------
+    // January | 1.2%
+    // February | 1.5%
+    // March | 1.8%
+    // April | 2.1%
+    // May | 2.4%
+
+    // price: is the current price
+    // inflationRates: is an array of the inflation rates for the previous 5 months
+    const inflationRates = [1.2, 1.5, 1.8, 2.1, 2.4];
+    const oldPrices = [];
+    for (let i = 0; i < 5; i++) {
+        // calculate the old price based on the inflation rate
+        const oldPrice = price / (1 + inflationRates[i] / 100);
+        // push the old price to the array
+        oldPrices.push(oldPrice);
+    }
+    return oldPrices;
+};
 
 async function run() {
     await db();
@@ -62,16 +85,17 @@ async function run() {
                     isBestSeller: is_best_seller,
                     priceSymbol: price_symbol,
                     price,
-                    productInformation: info,
-                    productCategory: product_category,
-                    fullDescription: full_description,
+                    oldPrices: getOldPrices(+price),
+                    productInformation: info || null,
+                    productCategory: product_category || null,
+                    fullDescription: full_description || null,
                     categoryName,
-                    provider: "Amazon"
+                    provider: "Amazon",
                 };
                 await Product.create(newProduct);
             }
 
-           
+
 
         }
     }

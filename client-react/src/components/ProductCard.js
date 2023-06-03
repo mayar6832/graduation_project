@@ -7,14 +7,17 @@ import { CardActionArea, Hidden } from "@mui/material";
 import Tooltip from '@mui/material/Tooltip';
 import { useSelector } from "react-redux";
 import Container from '@mui/material/Container';
-import {useNavigate} from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+
 
  
   
 function ProductCard({ item }) {
+
     const isAuth = Boolean(useSelector((state) => state.token));
     const tmp = JSON.parse(window.localStorage.getItem("persist:root")).user;
     const user = JSON.parse(tmp);
+
 
 const navigate = useNavigate();
    const openProduct= ()=>{
@@ -26,18 +29,14 @@ const navigate = useNavigate();
   
    }
 
-   
-//   deleteItem(item._id,user._id);
 
 
-  
 
     return (
         <Container>
-             {/* <button onClick={delProduct}> del </button> */}
+            {/* <button onClick={delProduct}> del </button> */}
             <Card
-            onClick={openProduct}
-            
+                onClick={openProduct}
                 sx={{
                     maxWidth: "220px",
                     width: "295px",
@@ -45,11 +44,12 @@ const navigate = useNavigate();
                     marginTop: "25px"
 
                 }}>
-                   
+
                 <CardActionArea>
                     <CardMedia
                         component="img"
                         height="220"
+                        sx={{ maxWidth: "350px", objectFit: "contain" }}
                         image={item.image}
                         alt={item.name}
                     />
@@ -61,9 +61,16 @@ const navigate = useNavigate();
                         </Tooltip>
                         {!isAuth ?
                             <></>
-                            : <> <Typography variant="body2" color="text.secondary" textAlign="center">
-                                Price from {item.provider}
-                            </Typography>
+                            : <>
+                                {item.provider === "Amazon" ? (
+                                    <Typography variant="body2" color="text.secondary" textAlign="center">
+                                        Price from Amazon
+                                    </Typography>
+                                ) : (
+                                    <Typography variant="body2" color="text.secondary" textAlign="center">
+                                        Price from Jumia
+                                    </Typography>
+                                )}
                             </>}
                         <Typography color="#2F77C6" fontWeight="bold" textAlign="center">
                             {item.priceSymbol} {item.price}
@@ -72,8 +79,6 @@ const navigate = useNavigate();
                 </CardActionArea>
             </Card >
         </Container>
-
-
     );
 }
 export default ProductCard;
