@@ -42,7 +42,7 @@ function SearchCard({ items, pages, length }) {
     return (
         <Box
             sx={{
-                width: "80%",
+                width: { lg: "80%", xs: "100%" },
                 display: "flex",
                 flexDirection: "column",
                 ml: "auto",
@@ -84,9 +84,9 @@ function SearchCard({ items, pages, length }) {
                             <Card
                                 sx={{
                                     display: "flex",
-                                    //   maxWidth: "1200px",
                                     width: "100%",
                                     flexDirection: { xs: "column", lg: "row" },
+                                    alignItems: { xs: "center", lg: "start" },
                                 }}
                             >
                                 <CardMedia

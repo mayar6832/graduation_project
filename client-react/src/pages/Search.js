@@ -32,7 +32,7 @@ function Search() {
         <>
             <NavBar />
           
-            <Stack direction="row" spacing={2}>
+            <Stack direction="row" spacing={2} flexWrap="wrap">
                 <PriceFilter />
                 <SearchCard items={items} pages={totalPages} length={numProduct} />
             </Stack>
