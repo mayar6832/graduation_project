@@ -119,6 +119,11 @@ function ProductSlider({ catName }) {
         speed={400}
         easing="linear"
         infinite={false}
+        containerProps={{
+          style: {
+            flexWrap: "nowrap",
+          },
+        }}
       >
         {items?.map((item, index) => (
           <ProductCard item={item} key={index} />

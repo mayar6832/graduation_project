@@ -58,7 +58,6 @@ const files = [
     "computer",
     "entertainment",
     "fashion",
-    "food",
     "mobile",
     "sport",
     "tablet",
