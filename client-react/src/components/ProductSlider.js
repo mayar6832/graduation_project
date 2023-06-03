@@ -121,7 +121,7 @@ function ProductSlider({ catName }) {
         easing="linear"
         infinite={false}
       >
-        {items.map((item, index) => (
+        {items && items.map((item, index) => (
           <ProductCard item={item} key={index} />
         ))}
       </Carousel>

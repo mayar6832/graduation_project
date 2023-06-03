@@ -16,6 +16,7 @@ const productSchema = new mongoose.Schema({
   productInformation: {},
   categoryName: String,
   provider: String,
+  recommendations:[String],
 
   average_rating:{
     type:Number,

@@ -21,8 +21,8 @@ import Divider from "@mui/material/Divider";
 import { setLogout } from "state";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import { useSelector } from "react-redux";
-import axios from "axios";
-import { useEffect, useState } from "react";
+// import axios from "axios";
+// import { useEffect, useState } from "react";
 
 const StyledMenu = styled((props) => (
   <Menu
@@ -112,10 +112,13 @@ export default function NavBar() {
   const dispatch = useDispatch();
   const isAuth = Boolean(useSelector((state) => state.token));
   const [anchorEl2, setAnchorEl2] = React.useState(null);
-
+   console.log('======+>'+JSON.stringify(globalUser.notifications));
+   
   const name = globalUser
     ? `${globalUser?.firstName} ${globalUser?.lastName}`
     : "";
+
+
 
   const open = Boolean(anchorEl2);
   const handleClick = (event) => {
@@ -162,12 +165,14 @@ export default function NavBar() {
   };
 
   const wishList = ()=>{
-    navigate('/wish');
     handleMenuClose();
+    navigate('/wish');
+   
   }
   const reviewss = ()=>{
-    navigate('/myReviews');
     handleMenuClose();
+    navigate('/myReviews');
+   
   }
 
   const menuId = "primary-search-account-menu";
@@ -262,10 +267,19 @@ export default function NavBar() {
             >
               My Profile
             </MenuItem>
-            <MenuItem onClick={wishList} disableRipple>
-              My Wish Lists
+            <MenuItem 
+            component={RouterLink}
+            to="/wish"
+            onClick={handleClose}
+            disableRipple
+           >
+              My WishList
             </MenuItem>
-            <MenuItem onClick={reviewss} disableRipple>
+            <MenuItem 
+              component={RouterLink}
+              to="/myReviews"
+              onClick={handleClose}
+              disableRipple>
               My Reviews
             </MenuItem>
             <Divider sx={{ my: 0.5 }} />
@@ -402,14 +416,32 @@ export default function NavBar() {
                   </MenuItem>
                 </StyledMenu>
                 <IconButton
+                id="demo-customized-button"
+                aria-controls={open ? "notifications" : undefined}
+                aria-haspopup="true"
+                aria-expanded={open ? "true" : undefined}
                   size="large"
                   aria-label="show 17 new notifications"
                   color="inherit"
+                  onClick={()=>console.log('clicked')}
                 >
-                  <Badge badgeContent={17} color="error">
+                  <Badge badgeContent={1} color="error">
                     <NotificationsIcon />
                   </Badge>
                 </IconButton>
+                <StyledMenu
+                  id="notifications"
+                  MenuListProps={{
+                    "aria-labelledby": "notifications",
+                  }}
+                  anchorEl={anchorEl2}
+                  open={open}
+                  onClose={handleClose}
+                >
+                  <MenuItem onClick={handleClose} disableRipple >
+                  </MenuItem>
+
+                </StyledMenu>
               </>
             )}
           </Box>

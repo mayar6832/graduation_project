@@ -44,7 +44,8 @@ const UserSchema = new mongoose.Schema(
     alerts:[{
       type:Schema.Types.ObjectId,
       ref:'product'
-    }]
+    }],
+    notifications:[],
     
   
   },

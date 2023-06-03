@@ -1,3 +1,4 @@
+import { spawn } from 'child_process';
 import product from '../models/products.js';
 import User from '../models/User.js';
 //search product 
@@ -93,26 +94,84 @@ const searchCategory = async (req, res) => {
     }
 }
 // gatting one product by its id
- const getProduct = async (req ,res)=> {
-   
-    try{
+const getProduct = async (req, res) => {
+    try {
       const { id } = req.params;
       const { userId } = req.body;
       const prod = await product.findById(id);
       const user = await User.findById(userId);
-      
-     const alreadyExists = await user.wishlist.some((produ)=> produ._id == id );
-       if(alreadyExists){
-        prod.favourite=true;
-        
+      const prodName = prod.name;
+  
+      const alreadyExists = await user.wishlist.some((produ) => produ._id == id);
+      if (alreadyExists) {
+        prod.favourite = true;
       }
-      
-      
-      res.status(200).send({data : prod});
-    } catch(error){
-        res.status(404).json({message : error.message});
+  
+      const alreadyExAlerts = await user.alerts.some((produ) => produ._id == id);
+      if (alreadyExAlerts) {
+        prod.alert = true;
+      }
+  
+      if (prod.recommendations.length ==5  ) {
+        const recs = await getProductsByName(prod.recommendations)
+        
+        res.status(200).json({ data: prod,recommended:recs });
+      } else {
+        // this is the link for python excutable  
+        const pythonExecutable = '/home/akram/anaconda3/bin/python3';
+        const pythonScript = './controllers/recommendation.py';
+        const args = [prodName,prod.categoryName];
+  
+        const pythonProcess = spawn(pythonExecutable, [pythonScript, ...args]);
+  
+        let recommendations = [];
+  
+        // Handle the output from the Python script
+        pythonProcess.stdout.on('data', (data) => {
+            
+          recommendations = data.toString().trim().split('\n'); // Convert the output to an array of strings
+        });
+  
+        // Handle errors that occur during the execution of the Python script
+        pythonProcess.on('error', (error) => {
+          console.error(`Error executing the Python script: ${error.message}`);
+          res.status(500).json({ message: 'Error executing the Python script' });
+        });
+  
+        // Handle the end of the Python script execution
+        pythonProcess.on('close', async (code) => {
+          if (code === 0) {
+            // Python script executed successfully
+            console.log('Python script execution completed');
+            recommendations = JSON.parse(recommendations);
+            // console.log(recommendations);
+            prod.recommendations = recommendations; // Update the recommendations in the product
+            // console.log(recommendations);
+            
+            
+            try {
+                const updatedProduct = await product.findByIdAndUpdate(id,prod,{new:true});
+                const recs = await getProductsByName(prod.recommendations)
+                    // console.log(recs)
+                
+              res.status(200).send({ data: updatedProduct, recommended:recs});
+            } catch (error) {
+              console.error('Error saving updated product:', error);
+              res.status(500).json({ message: 'Failed to save updated product' });
+            }
+          } else {
+            // Error occurred in the Python script
+            console.error(`Python script execution failed with code ${code}`);
+            res.status(500).json({ message: 'Python script execution failed' });
+          }
+        });
+      }
+    } catch (error) {
+      console.log(error.message);
+      res.status(404).json({ message: error.message });
     }
-}
+  };
+  
 
      const favProduct = async (req ,res)=> {
 
@@ -153,12 +212,15 @@ const searchCategory = async (req, res) => {
     })
    }
    else{
-    console.log("false");
+   
     user.alerts.push(prod)
+
    }
    const updatedUser = await User.findByIdAndUpdate(userId,user,{new:true});
+  //  console.log(updatedUser.alerts);
     res.status(200).json(!alreadyExists)
    } catch (error) {
+    
    res.status(404).json(error.message);    
    }
      
@@ -174,10 +236,14 @@ const searchCategory = async (req, res) => {
         prod.reviews.push(value);
         const user = await User.findById(userId);
         value.productName = prod.name;
+
         
         // pushing the review object to review array in users table 
         user.reviews.push(value);
-       
+        if(user.reviews.length ==10){
+          user.notifications.push('you have received a sale coupon');
+          console.log(user.notifications);
+        }
         const rateing = clacAverageRating(prod.reviews) ;
         
         prod.average_rating = rateing;
@@ -224,6 +290,19 @@ revis.forEach(rev => {
  const average_rating = (1*one+2*two+3*three+4*four+5*five)/total;
  return average_rating;
 }
+async function  getProductsByName(names) {
+    const products = [];
+  
+    
+    for (const name of names) {
+      const prod = await product.find({
+        "name":name
+      })
+      products.push(prod);
+    }
+  
+    return products;
+  }
 const productController = {
     searchProduct,
     searchCategory,
