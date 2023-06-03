@@ -1,6 +1,5 @@
-
 import mongoose from "mongoose";
-import reviewMassage from './ReviewMessage.js'
+import reviewMassage from "./ReviewMessage.js";
 //create schema
 const productSchema = new mongoose.Schema({
   name: String,
@@ -10,6 +9,7 @@ const productSchema = new mongoose.Schema({
   brand: String,
   isBestSeller: Boolean,
   price: Number,
+  oldPrices: [Number],
   priceSymbol: String,
   fullDescription: String,
   productCategory: String,
@@ -17,23 +17,20 @@ const productSchema = new mongoose.Schema({
   categoryName: String,
   provider: String,
 
-  average_rating:{
-    type:Number,
-    default:0
-},
-reviews:[reviewMassage],
-favourite:{
-  type:Boolean,
-  default:false
-},
-alert:{
-  type:Boolean,
-  default:false
-},
+  average_rating: {
+    type: Number,
+    default: 0,
+  },
+  reviews: [reviewMassage],
+  favourite: {
+    type: Boolean,
+    default: false,
+  },
+  alert: {
+    type: Boolean,
+    default: false,
+  },
   newrelease: Boolean,
-
-  
-
 });
 
 //create a model

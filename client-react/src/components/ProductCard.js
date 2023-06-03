@@ -37,7 +37,6 @@ function ProductCard({ item, deleteItem }) {
             {/* <button onClick={delProduct}> del </button> */}
             <Card
                 onClick={openProduct}
-
                 sx={{
                     maxWidth: "220px",
                     width: "295px",
