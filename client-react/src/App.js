@@ -2,7 +2,7 @@ import { BrowserRouter, Navigate, Routes, Route } from "react-router-dom";
 import Loginpage from "scences/loginpage";
 import Adminloginpage from "scences/adminloginpage";
 import ProfilePage from "scences/profilePage";
-
+// import Homepage from "scences/homepage";
 
 import { useSelector } from "react-redux";
 // import { CssBaseline, ThemeProvider } from "@mui/material";
@@ -27,7 +27,7 @@ function App() {
   const isAuth = Boolean(useSelector((state) => state.token));
   return (
     <div className="app">
-
+      
       <BrowserRouter>
       <NavBar />
         {/* <ThemeProvider theme={theme}> */}
@@ -37,17 +37,18 @@ function App() {
           <Route path="/coupon" element={<Coupon />} />
           <Route path="/search" element={<Search />} />
           <Route path="category/:categoryName" element={<Categories />} />
-
-          
           <Route path="/product/:id" element={ <ProductPage/>} />
- 
           <Route path="/BestSelling" element={<BestSelling />} />
           <Route path="/NewReleases" element={<NewReleases />} />
           <Route path="/myReviews" element={<UserReviews />} />
           <Route path="/wish" element={<UserWishList />} />
           <Route path="/auth" element={!isAuth ? < Loginpage /> : <Navigate to="/" />} />
           <Route path="/admin" element={<Adminloginpage />} />
-          <Route path="/profile" element={isAuth ? <ProfilePage /> : <Navigate to="/auth" />} />
+          <Route path="/profile" element={isAuth ? <ProfilePage /> : <Navigate to="/auth" />}/>
+
+         
+
+          
         </Routes>
         <Footer />
         {/* </ThemeProvider> */}

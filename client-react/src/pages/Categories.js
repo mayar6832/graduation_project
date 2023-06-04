@@ -34,11 +34,8 @@ function Categories() {
     }, [categoryName,searchParams]);
     return (
         <>
-
-           
-            <Stack direction="row" spacing={2} flexWrap="wrap">
             
-           
+            <Stack direction="row" spacing={2}>
                 <PriceFilter />
                 <SearchCard items={items} pages={totalPages} length={numProduct}/>
             </Stack>

@@ -10,7 +10,6 @@ import Pagination from "@mui/material/Pagination";
 import { useState } from "react";
 import { useSearchParams, useNavigate } from "react-router-dom";
 import amazonLogo from "./../images/amazonLogo.png";
-import jumiaLogo from "./../images/JumiaLogo.png";
 import { Grid } from "@mui/material";
 import { useEffect } from "react";
 import { useSelector } from "react-redux";
@@ -32,19 +31,14 @@ function SearchCard({ items, pages, length }) {
         console.log(e, p);
         setPage(p);
     };
-
-    const openProduct = (id) => {
+    const openProduct= (id)=>{
         navigate(`/product/${id}`);
-    }
-
+       }
     const isAuth = Boolean(useSelector((state) => state.token));
-    const storeImg = amazonLogo;
-
-
     return (
         <Box
             sx={{
-                width: { lg: "80%", xs: "100%" },
+                width: "80%",
                 display: "flex",
                 flexDirection: "column",
                 ml: "auto",
@@ -76,9 +70,7 @@ function SearchCard({ items, pages, length }) {
                 {items?.map((item, index) => (
                     <div style={{ width: "100%" }} key={index}>
                         <ListItem
-
-                            onClick={() => openProduct(item._id)}
-
+                        onClick={()=>openProduct(item._id)}
                             sx={{
                                 alignItems: "center",
                                 justifyItems: "start",
@@ -88,15 +80,15 @@ function SearchCard({ items, pages, length }) {
                             <Card
                                 sx={{
                                     display: "flex",
+                                    //   maxWidth: "1200px",
                                     width: "100%",
                                     flexDirection: { xs: "column", lg: "row" },
-                                    alignItems: { xs: "center", lg: "start" },
                                 }}
                             >
                                 <CardMedia
                                     component="img"
                                     height="200"
-                                    sx={{ maxWidth: "350px", objectFit: "contain" }}
+                                    sx={{ maxWidth: "400px" }}
                                     image={item.image}
                                     alt={item.name}
                                 />
@@ -136,9 +128,6 @@ function SearchCard({ items, pages, length }) {
                                                 primary={
                                                     <Typography
                                                         component={"span"}
-                                                        onClick={(e) => {
-                                                            e.stopPropagation();
-                                                        }}
                                                         sx={{
                                                             color: "#838B8B",
                                                             fontWeight: "bold",
@@ -162,25 +151,14 @@ function SearchCard({ items, pages, length }) {
                                                         alignItems="center"
                                                         justifyContent="center"
                                                     >
-                                                        <Link href={item.url} underline="hover" target="_blank"
-                                                            onClick={(e) => {
-                                                                e.stopPropagation();
-                                                            }}
-                                                        >
+                                                        <Link href={item.url} underline="hover">
                                                             <Typography
                                                                 component={"span"}
                                                                 sx={{ display: "block" }}
                                                             >
                                                                 Buy it from{" "}
                                                             </Typography>
-                                                            <>
-                                                                {item.provider === "Amazon" ? (
-                                                                    <img src={amazonLogo} style={{ height: 60 }} />
-                                                                ) : (
-                                                                    <img src={jumiaLogo} style={{ height: 60 }} />
-                                                                )}
-                                                            </>
-
+                                                            <img src={amazonLogo} style={{ height: 60 }} />
                                                         </Link>
                                                     </Box>
                                                 }

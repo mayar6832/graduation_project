@@ -58,34 +58,12 @@ const files = [
     "computer",
     "entertainment",
     "fashion",
-    "mobile",
+    "food",
+    "phone",
     "sport",
     "tablet",
     "television",
 ];
-
-const getOldPrices = (price) => {
-    // Based on the U.S. Bureau of Labor Statistics: The BLS is a federal agency that collects data on prices and wages. The BLS publishes a monthly report called the Consumer Price Index (CPI), which tracks the change in prices for a basket of goods and services. The CPI can be used to calculate the inflation rate, which is the rate at which prices are rising.
-    // Month | Average Change Percentage
-    // ------- | ------------------------
-    // January | 1.2%
-    // February | 1.5%
-    // March | 1.8%
-    // April | 2.1%
-    // May | 2.4%
-
-    // price: is the current price
-    // inflationRates: is an array of the inflation rates for the previous 5 months
-    const inflationRates = [1.2, 1.5, 1.8, 2.1, 2.4];
-    const oldPrices = [];
-    for (let i = 0; i < 5; i++) {
-        // calculate the old price based on the inflation rate
-        const oldPrice = price / (1 + inflationRates[i] / 100);
-        // push the old price to the array
-        oldPrices.push(oldPrice);
-    }
-    return oldPrices;
-};
 
 async function run() {
     await db();
@@ -105,7 +83,6 @@ async function run() {
             } = product;
             const categoryName = file;
             if (!isNaN(parseFloat(price.replace(/[^0-9.-]+/g, "")))) {
-                const calcprices = parseFloat(price.replace(/[^0-9.-]+/g, "")) || 100;
                 const newProduct = {
                     name,
                     image,
@@ -113,8 +90,7 @@ async function run() {
                     brand: "Jumia",
                     isBestSeller: is_best_seller?.toLowerCase() === "true",
                     priceSymbol: "EGP",
-                    price:calcprices,
-                    oldPrices: getOldPrices(calcprices),
+                    price: parseFloat(price.replace(/[^0-9.-]+/g, "")),
                     productInformation,
                     productCategory: categoryName,
                     fullDescription,
