@@ -2,7 +2,10 @@
   margin: 0;
   padding: 0;
 }
+<<<<<<< HEAD
 
+=======
+>>>>>>> 5ee5e41fb5c6c502bbfb83315b4e3b80603033cf
 
 .more {
   display: inline-block;
@@ -26,8 +29,11 @@
 .catbutton {
   background-color: black;
 }
+<<<<<<< HEAD
 
 
+=======
+>>>>>>> 5ee5e41fb5c6c502bbfb83315b4e3b80603033cf
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
@@ -72,4 +78,14 @@ html {
 
 html body {
   padding: 0;
+}
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+  /* -webkit-overflow-scrolling: none; */
 }

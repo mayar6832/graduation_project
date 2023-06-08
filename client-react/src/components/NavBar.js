@@ -21,8 +21,11 @@ import Divider from "@mui/material/Divider";
 import { setLogout } from "state";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import { useSelector } from "react-redux";
+<<<<<<< HEAD
 // import axios from "axios";
 // import { useEffect, useState } from "react";
+=======
+>>>>>>> 5ee5e41fb5c6c502bbfb83315b4e3b80603033cf
 
 const StyledMenu = styled((props) => (
   <Menu

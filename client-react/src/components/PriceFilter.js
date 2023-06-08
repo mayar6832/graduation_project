@@ -56,12 +56,13 @@ function PriceFilter() {
     <Box
       sx={{
         display: "flex",
-        maxWidth: "15%",
+        maxWidth: { lg: "15%", xs: "100%" },
         padding: "20px",
         marginTop: "20px",
         flexDirection: "column",
         justifyContent: "start",
         alignItems: "start",
+        width: "100%"
       }}
     >
       <Typography
