@@ -100,6 +100,46 @@ export const getUserWishlist = async (req, res)=>{
     }
   }
 
+  export const delNotification = async(req,res) => {
+    try{
+    const { id } = req.params;
+    
+    const user = await User.findById(id);
+    user.notifications = [];
+  const updatedUser = await User.findByIdAndUpdate(id,user,{new:true});
+  
+  res.status(200).json(updatedUser);
+
+    }catch(err){
+      res.status(404).json({msg:err.message});
+    }
+  }
+  export const getNotifications = async(req,res) => {
+   try {
+    const { id } = req.params;
+    console.log(id)
+    
+    const user = await User.findById(id);
+    console.log(user.firstName)
+    const notifications = user.notifications;
+    console.log(''+user.notifications)
+    res.status(200).json(notifications);
+   } catch (error) {
+    res.status(405).json({msg:error.message});
+   }
+  }
+export const getCoupon = async(req,res) => {
+try {
+  const { id } = req.params;
+  const user = await User.findById(id);
+  console.log(user.hasCoupon);
+  res.status(200).json(user.hasCoupon);
+
+} catch (error) {
+  res.status(405).json({msg:error.message});
+}
+}
+
 
  async function  getProductsByIds(ids) {
     const products = [];

@@ -1,5 +1,5 @@
 import express from "express";
-import { getUser, updateUser , getUserReviews,getUserWishlist,deleteWishListItem} from "../controllers/user.js";
+import { getUser, updateUser , getUserReviews,getUserWishlist,deleteWishListItem,delNotification,getNotifications,getCoupon} from "../controllers/user.js";
 import multer from "multer";
 
 const router = express.Router();
@@ -19,5 +19,8 @@ router.get("/:_id", getUser);
 router.get("/:id/reviews", getUserReviews);
 router.get('/:id/wish',getUserWishlist);
 router.put('/:id/wish',deleteWishListItem);
+router.delete('/:id',delNotification);
+router.get('/:id/not',getNotifications);
+router.get('/:id/coupon',getCoupon)
 
 export default router;

@@ -249,8 +249,10 @@ const revProduct = async (req ,res) => {
       
       // pushing the review object to review array in users table 
       user.reviews.push(value);
+      console.log(user.reviews.length)
       if(user.reviews.length ==10){
         user.notifications.push('you have received a sale coupon');
+        user.hasCoupon = true;
         console.log(user.notifications);
       }
       const rateing = clacAverageRating(prod.reviews) ;

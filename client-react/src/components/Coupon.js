@@ -1,6 +1,6 @@
 import React from 'react'
 import { Paper,Box ,Typography} from "@mui/material";
-const Coupon = () => {
+function Coupon() {
   return (
     <Paper  style={{borderRadius:50,backgroundColor:'gainsboro',margin:'auto' ,width:'80%',padding:8}}>
            

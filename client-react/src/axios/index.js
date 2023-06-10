@@ -11,3 +11,6 @@ export const alertProduct =async (userId,id) => await API.put(`/product/${id}/al
 export const getUserReviews = async (id) => await API.get(`/user/${id}/reviews`) ;
 export const getWishList = async(id) => await API.get(`/user/${id}/wish`);
 export const deleteWishListItem = async (productId,id)=> await API.put(`/user/${id}/wish`,{ productId });
+export const delNotification = async (id) => await API.delete(`/user/${id}`);
+export const getUserNotifications = async(id) => await API.get(`/user/${id}/not`);
+export const getCoupon = async (id) => await API.get(`/user/${id}/coupon`);

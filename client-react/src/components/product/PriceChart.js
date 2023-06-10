@@ -6,19 +6,27 @@ import {
   LineSeries,
 } from '@devexpress/dx-react-chart-material-ui';
 
-const PriceChart = () => {
-    const data = [
-        { x: 1, y: 26000 },
-        { x: 2, y: 22000 },
-        { x: 3, y: 20000 },
-        { x: 4, y: 21500 },
-        { x: 5, y: 21000 },
-      ];
+const PriceChart = ({prices}) => {
+  console.log(prices);
+  const data = prices.reverse();
+  const mappedArray = data.map((value, index) => ({ x: index, y: value }));
+ 
+console.log(data);
+console.log(mappedArray);
+
+
+  // const data = [
+  //       { x: 1, y: 26000 },
+  //       { x: 2, y: 22000 },
+  //       { x: 3, y: 20000 },
+  //       { x: 4, y: 21500 },
+  //       { x: 5, y: 21000 },
+  //     ];
   return (
     <Paper >
     <Chart
     className='chart'
-      data={data}
+      data={mappedArray}
     >
       <ArgumentAxis />
       <ValueAxis />

@@ -9,20 +9,14 @@ import { useSelector } from "react-redux";
 import Container from '@mui/material/Container';
 import { useNavigate } from "react-router-dom";
 
-<<<<<<< HEAD
+
  
   
 function ProductCard({ item }) {
-=======
-
-
-function ProductCard({ item, deleteItem }) {
->>>>>>> 5ee5e41fb5c6c502bbfb83315b4e3b80603033cf
     const isAuth = Boolean(useSelector((state) => state.token));
     const tmp = JSON.parse(window.localStorage.getItem("persist:root")).user;
     const user = JSON.parse(tmp);
 
-<<<<<<< HEAD
 const navigate = useNavigate();
    const openProduct= ()=>{
     navigate(`/product/${item._id}`);
@@ -35,21 +29,6 @@ const navigate = useNavigate();
 
    
 //   deleteItem(item._id,user._id);
-=======
-    const navigate = useNavigate();
-    const openProduct = () => {
-        navigate(`/product/${item._id}`);
-    }
-    //to delete product from wishlist
-    const delProduct = () => {
-        console.log(item._id);
-        deleteItem(item._id, user._id);
-    }
-
-
-    //   deleteItem(item._id,user._id);
-
->>>>>>> 5ee5e41fb5c6c502bbfb83315b4e3b80603033cf
 
 
 

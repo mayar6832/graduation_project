@@ -17,7 +17,7 @@ import UserReviews from "pages/UserReviews";
 import UserWishList from "pages/UserWishList";
 import NavBar from "./components/NavBar";
 import Footer from "./components/Footer";
-import Coupon from "pages/Coupon";
+import CouponPage from "pages/CouponPage";
 
 function App() {
   // const mode = useSelector((state) => state.mode);
@@ -32,14 +32,14 @@ function App() {
         {/* <CssBaseline /> */}
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/coupon" element={<Coupon />} />
+          <Route path="/coupon" element={isAuth ?<CouponPage />: <Navigate to="/auth" />} />
           <Route path="/search" element={<Search />} />
           <Route path="category/:categoryName" element={<Categories />} />
-          <Route path="/product/:id" element={<ProductPage />} />
+          <Route path="/product/:id" element={isAuth ?<ProductPage />: <Navigate to="/auth" />} />
           <Route path="/BestSelling" element={<BestSelling />} />
           <Route path="/NewReleases" element={<NewReleases />} />
-          <Route path="/myReviews" element={<UserReviews />} />
-          <Route path="/wish" element={<UserWishList />} />
+          <Route path="/myReviews" element={isAuth ?<UserReviews />: <Navigate to="/auth" />} />
+          <Route path="/wish" element={isAuth ?<UserWishList />: <Navigate to="/auth" />} />
           <Route path="/auth" element={!isAuth ? < Loginpage /> : <Navigate to="/" />} />
           <Route path="/admin" element={<Adminloginpage />} />
           <Route path="/profile" element={isAuth ? <ProfilePage /> : <Navigate to="/auth" />} />

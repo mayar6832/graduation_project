@@ -13,7 +13,9 @@ import ReviewSection from "./Review";
 import {favouriteProduct,alertProduct} from '../../axios';
 
 import React ,{useState} from 'react';
-import { Typography } from "@mui/material";
+import { Typography,Box,Link } from "@mui/material";
+import amazonLogo from "./../../images/amazonLogo.png";
+import jumiaLogo from "./../../images/JumiaLogo.png";
 
 
 
@@ -21,7 +23,7 @@ const Product = ({ product,recomendations }) => {
   const tmp = JSON.parse(window.localStorage.getItem("persist:root")).user;
   const user = JSON.parse(tmp);
   const userId = user._id;
-  
+  console.log(product)
 
   function printObject(obj) {
     return Object.entries(obj).map(([key, value]) => (
@@ -107,17 +109,53 @@ const Product = ({ product,recomendations }) => {
             rowSpacing={1}
             >
               {/* items on the right coulumn */}
-              <Grid item xs={4} md={3}>
-                <img
-                  className="shops-logo"
-                  alt="noon"
-                  src= 'https://cdn.vox-cdn.com/thumbor/TMB0K7PcIiuiI4dyRQgpY4U8OCA=/0x0:2040x1360/1400x1400/filters:focal(1020x680:1021x681)/cdn.vox-cdn.com/uploads/chorus_asset/file/23935560/acastro_STK103__03.jpg'
-                ></img>
+              <Grid item xs={12} md={3}>
+              <Box
+               component={"span"}
+              //  sx={{ minWidth: "200px" }}
+               display="flex"
+               alignItems="center"
+               justifyContent="center"
+               >
+                <Link href={product.url} underline="hover" target="_blank"
+               onClick={(e) => {
+                e.stopPropagation();
+               }}
+                >
+                <Typography
+                component={"span"}
+                 sx={{ display: "block" }}
+                    >
+                   Buy it from{" "}
+                </Typography>
+                <>
+                {product.provider === "Amazon" ? (
+                 <img src={amazonLogo} style={{ height: 60 }} />
+                 ) : (
+                  <img src={jumiaLogo} style={{ height: 60 }} />
+                  )}
+                  </>
+
+                  </Link>
+                    </Box>
               </Grid>
-              <Grid item xs={8} md={8}>
-                <div className="pricebtn">
-                  <p style={{color:'#fff'}}>{`${product.price} EGB`}</p>
-                </div>
+              <Grid item xs={12} md={8}>
+              <Typography
+                  component={"span"}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    }}
+                   sx={{
+                   color: "#838B8B",
+                   fontWeight: "bold",
+                   textAlign: "center",
+                   border: "1px outset #BDBDBD",
+                   padding: "3px",
+                
+                   display: "block",
+                            }}>
+                  {product.priceSymbol} {product.price}
+                    </Typography>
               </Grid>
               
               <Grid item md={4} xs={5}>
@@ -160,26 +198,29 @@ const Product = ({ product,recomendations }) => {
         </Grid>
       </Grid>
       <Grid item md={10} xs={10}>
-        <Typography variant="h6" sx={{fontWeight:'bold',marginBottom:1}} >Product Description </Typography>
+       {product.fullDescription!=null?  <Typography variant="h6" sx={{fontWeight:'bold',marginBottom:1}} >Product Description </Typography> :<Typography></Typography> }
       </Grid>
       <Grid item md={10} xs={10}>
 
    <Typography variant="body2" style={{marginLeft:10,marginBottom:1}}> {product.fullDescription}</Typography>     
       </Grid>
       <Grid item md={10} xs={10}>
-        <Typography variant="h6" style={{fontWeight:'bold', marginBottom:1}}>Product Specifications </Typography>
+      {product.productInformation?<Typography variant="h6" style={{fontWeight:'bold', marginBottom:1}}>Product Specifications </Typography>: <Typography></Typography>}  
       </Grid>
+    
       <Grid item md={8} xs={10}>
-       {  product.productInformation && printObject(product.productInformation) }
+{   product.provider === "Amazon" &&product.productInformation ? printObject(product.productInformation):product.productInformation }
        
       </Grid>
+      
+      
        <Grid item md={10} xs={10}>
         
-        <PriceChart />
+        <PriceChart prices={product.oldPrices} />
         
        
        </Grid>
-       <Grid item md={10} xs={10}>
+       <Grid item md={12} xs={10}>
        <RecomendationSystem recomendations={recomendations}/>
        </Grid>
      
@@ -189,6 +230,7 @@ const Product = ({ product,recomendations }) => {
         </div>
        
        </Grid>
+       
     </Grid>
     
   );
