@@ -44,6 +44,7 @@ const searchProduct = async (req, res) => {
     const query = await product.find({
       $and: filters,
     });
+     
     const total_pages = Math.ceil(query.length / limit) || 1;
     const length = query.length;
     if (product_data.length > 0) {
@@ -88,6 +89,7 @@ const searchCategory = async (req, res) => {
         "$and": filters
       }
     )
+
     const total_pages = Math.ceil(query.length / limit) || 1;
     const length = query.length;
     if (product_data.length > 0) {
@@ -123,7 +125,7 @@ const getProduct = async (req, res) => {
 
     if (prod.recommendations.length ==5  ) {
       const recs = await getProductsByName(prod.recommendations)
-      
+   
       res.status(200).json({ data: prod,recommended:recs });
     } else {
       // this is the link for python excutable  
@@ -311,9 +313,43 @@ async function  getProductsByName(names) {
     })
     products.push(prod);
   }
-
+  
   return products;
 }
+
+function filterCheapestProducts(products) {
+    
+  const cheapestProducts = [];
+
+  products.forEach((product) => {
+    // check if product is already in productsWithLowestPrice by checking the name of the product 
+    if (!cheapestProducts.find((p) => p.name === product.name)) {
+      console.log('product not found in cheapest products');
+      cheapestProducts.push(product);
+      return;
+    };
+
+    for (let i = 0; i < cheapestProducts.length; i++) {
+      const cheapestProduct = cheapestProducts[i];
+
+      if (!(product.name === cheapestProduct.name)) {
+        console.log('product name not equal cheapest product name');
+        return;
+      }
+
+      if (product.price < cheapestProduct.price) {
+        console.log('cheaper product found');
+        cheapestProducts[i] = product;
+      }
+
+    }
+  });
+  return cheapestProducts;
+}
+
+
+
+
 const productController = {
   searchProduct,
   searchCategory,

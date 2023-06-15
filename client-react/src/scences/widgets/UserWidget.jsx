@@ -85,7 +85,7 @@ const UserWidget = () => {
           user: response.data,
         })
       );
-      alert("Profile Updated");
+      //alert("Profile Updated");
       // reload the page
       window.location.reload();
       setIsModified(false); // Set isModified to false when changes are saved
