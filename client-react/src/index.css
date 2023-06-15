@@ -1,10 +1,82 @@
-/* @import url("https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;700&display=swap");
+* {
+  margin: 0;
+  padding: 0;
+}
 
-html,
-body,
-#root,
-.app {
+.more {
+  display: inline-block;
+  border: none;
+  background-color: #EDEDED;
+  font-size: 20px;
+  color: #2E37FE;
+  text-decoration: none;
+}
+
+.more:hover {
+  text-decoration: underline;
+}
+
+.line {
+  width: 1250px;
+  margin-top: 25px;
+  background-color: #EDEDED;
+}
+
+.catbutton {
+  background-color: black;
+}
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
+.image{
+  width: 90%;
   height: 100%;
-  width: 100%;
-  font-family: "Rubik", sans-serif;
-} */
+  
+}
+.con{
+ padding-left: 10px;
+}
+.shops-logo{
+  width: 100px;
+  height: 50px;
+  
+}
+.pricebtn{
+  background-color: rgb(21,76,121);
+  text-align: center;
+  height: 50px;
+  width: 200px;
+ 
+  
+
+}
+.pricebtn p{
+  margin-top: 0px;
+  padding-top:1rem ;
+}
+.btn{
+  height: 2.5rem;
+}
+html {
+  /* this makes sure the padding and the border is included in the box sizing */
+  box-sizing: border-box;
+  
+}
+.chart{
+  height: 300px!important;
+}
+
+html body {
+  padding: 0;
+}
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+ 
+  /* -webkit-overflow-scrolling: none; */
+}

@@ -29,7 +29,7 @@ const UserWidget = () => {
   const isNonMobile = useMediaQuery("(min-width:500px)");
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  // const dark = palette.neutral.dark;
+  const dark = palette.neutral?.dark;
 
   const token = localStorage.getItem("token");
   const url = process.env.API_URL || "http://localhost:3001";
@@ -85,7 +85,7 @@ const UserWidget = () => {
           user: response.data,
         })
       );
-      // alert("Profile Updated");
+      //alert("Profile Updated");
       // reload the page
       window.location.reload();
       setIsModified(false); // Set isModified to false when changes are saved
