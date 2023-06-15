@@ -35,7 +35,7 @@ const searchProduct = async (req, res) => {
     if (req.body.newrelease) {
       filters.push({ newrelease: true });
     }
-    const product_data = await product
+    let product_data = await product
       .find({
         $and: filters,
       })
@@ -44,7 +44,7 @@ const searchProduct = async (req, res) => {
     const query = await product.find({
       $and: filters,
     });
-     
+     product_data=filterCheapestProducts(product_data);
     const total_pages = Math.ceil(query.length / limit) || 1;
     const length = query.length;
     if (product_data.length > 0) {
@@ -79,7 +79,7 @@ const searchCategory = async (req, res) => {
     if (req.body.maxPrice || req.body.minPrice) {
       filters.push({ "price": { $gte: minPrice, $lte: maxPrice } })
     }
-    const product_data = await product.find(
+    let product_data = await product.find(
       {
         "$and": filters
       }
@@ -89,7 +89,7 @@ const searchCategory = async (req, res) => {
         "$and": filters
       }
     )
-
+    product_data=filterCheapestProducts(product_data);
     const total_pages = Math.ceil(query.length / limit) || 1;
     const length = query.length;
     if (product_data.length > 0) {
@@ -125,7 +125,7 @@ const getProduct = async (req, res) => {
 
     if (prod.recommendations.length ==5  ) {
       const recs = await getProductsByName(prod.recommendations)
-   
+      //recs=filterCheapestProducts(recs);
       res.status(200).json({ data: prod,recommended:recs });
     } else {
       // this is the link for python excutable  
@@ -313,7 +313,7 @@ async function  getProductsByName(names) {
     })
     products.push(prod);
   }
-  
+  //prod=filterCheapestProducts(prod);
   return products;
 }
 
@@ -346,9 +346,6 @@ function filterCheapestProducts(products) {
   });
   return cheapestProducts;
 }
-
-
-
 
 const productController = {
   searchProduct,
