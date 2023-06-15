@@ -29,7 +29,7 @@ const UserWidget = () => {
   const isNonMobile = useMediaQuery("(min-width:500px)");
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const dark = palette.neutral.dark;
+  const dark = palette.neutral?.dark;
 
   const token = localStorage.getItem("token");
   const url = process.env.API_URL || "http://localhost:3001";

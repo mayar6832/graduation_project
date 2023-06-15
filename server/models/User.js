@@ -1,4 +1,8 @@
-import mongoose from "mongoose";
+import mongoose, { Schema } from "mongoose";
+import reviewMassage from './ReviewMessage.js'
+
+import product from './products.js';
+
 
 const UserSchema = new mongoose.Schema(
   {
@@ -32,9 +36,22 @@ const UserSchema = new mongoose.Schema(
       required: true,
       type: String,
     },
+    reviews:[reviewMassage],
+    wishlist:[{
+      type:Schema.Types.ObjectId,
+      ref:'product'
+    }],
+    alerts:[{
+      type:Schema.Types.ObjectId,
+      ref:'product'
+    }],
+    notifications:[String],
+    hasCoupon:Boolean,
+    
   
   },
   { timestamps: true }
 );
+
 const User = mongoose.model("User", UserSchema);
 export default User;
