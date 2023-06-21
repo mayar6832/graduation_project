@@ -27,7 +27,7 @@ export const authSlice = createSlice({
       state.user = action.payload.user;
     },
     setPageType: (state, action) => {
-      state.pageType=action.payload
+      state.pageType = action.payload
     }
 
   },

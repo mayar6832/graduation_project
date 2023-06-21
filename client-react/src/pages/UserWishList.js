@@ -3,6 +3,9 @@ import React, { useEffect, useState } from 'react';
 import { getWishList, deleteWishListItem } from '../axios';
 import WishListItem from '../components/wishListItem';
 
+import { getWishList, deleteWishListItem } from '../axios';
+import WishListItem from '../components/wishListItem';
+
 function UserWishList() {
   const tmp = JSON.parse(window.localStorage.getItem("persist:root")).user;
   const user = JSON.parse(tmp);
@@ -36,6 +39,8 @@ function UserWishList() {
 
         return (<Grid key={prodBack.name} item md={2.5} xs={10}> <WishListItem deleteItem={removeWishListItem} item={prodBack} /> </Grid>)
       })}
+
+
 
 
 

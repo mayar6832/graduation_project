@@ -34,8 +34,7 @@ function Categories() {
     }, [categoryName,searchParams]);
     return (
         <>
-
-           
+            
             <Stack direction="row" spacing={2} flexWrap="wrap">
             
            

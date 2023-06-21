@@ -13,11 +13,9 @@ import { useNavigate } from "react-router-dom";
  
   
 function ProductCard({ item }) {
-
     const isAuth = Boolean(useSelector((state) => state.token));
     const tmp = JSON.parse(window.localStorage.getItem("persist:root")).user;
     const user = JSON.parse(tmp);
-
 
 const navigate = useNavigate();
    const openProduct= ()=>{
@@ -29,6 +27,8 @@ const navigate = useNavigate();
   
    }
 
+   
+//   deleteItem(item._id,user._id);
 
 
 

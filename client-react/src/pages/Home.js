@@ -1,6 +1,8 @@
 import ProductSlider from "./../components/ProductSlider";
 import CategoryButton from "./../components/CategoryButton";
 
+
+
 const catCrousels = [
     "BestSelling",
     "NewReleases",
@@ -11,12 +13,16 @@ const catCrousels = [
     "Book"
 ];
 function Search() {
+    
+    
     return (
         <>
+            
             <CategoryButton />
             {catCrousels?.map((catCrousel, index) => (
                 <ProductSlider catName={catCrousel} key={index} />
             ))}
+            
         </>
     );
 }

@@ -45,7 +45,12 @@ const UserSchema = new mongoose.Schema(
       type:Schema.Types.ObjectId,
       ref:'product'
     }],
+<<<<<<< HEAD
     notifications:[],
+=======
+    notifications:[String],
+    hasCoupon:Boolean,
+>>>>>>> main
     
   
   },

@@ -17,9 +17,8 @@ import { setPageType as setPageTypeAction } from "state";
 const registerSchema = yup.object().shape({
   firstName: yup.string().required("required"),
   lastName: yup.string().required("required"),
-  email: yup.string().email("invalid email").required("required"),
+  email: yup.string().test("email", "Invalid email format", (value) => {return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);}).required("Email is required"),
   password: yup.string().required("required"),
-
   confirmPassword: yup
     .string()
     .oneOf([yup.ref("password"), null], "Passwords must match")
@@ -36,7 +35,7 @@ const initialValuesRegister = {
 };
 
 const loginSchema = yup.object().shape({
-  email: yup.string().email("invalid email").required("required"),
+  email: yup.string().email("Invalid email format").required("Email is required"),
   password: yup.string().required("required"),
 });
 
@@ -99,7 +98,7 @@ const Form = () => {
       }
       const data = savedUserResponse.data;
       console.log(data);
-      alert("User created successfully Proceed to login");
+      // alert("User created successfully Proceed to login");
       onSubmitProps.resetForm();
 
       navigate("/auth");
@@ -151,6 +150,7 @@ const Form = () => {
       alert(error.response.data.msg);
     }
   };
+  
 
   const googleSignIn = async (credentialResponse) => {
     try {
@@ -208,7 +208,7 @@ const Form = () => {
             <Box
               display="grid"
               gap="30px"
-              paddingTop="20px"
+              
               gridTemplateColumns="repeat(4, minmax(0, 1fr))"
               sx={{
                 "& > div": { gridColumn: isNonMobile ? undefined : "span 4" },

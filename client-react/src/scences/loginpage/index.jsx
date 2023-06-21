@@ -23,7 +23,7 @@ const Loginpage = () => {
         borderRadius="1.5rem"
         backgroundColor={theme.palette.background.alt}
       >
-        <Typography fontWeight="500" variant="h4" sx={{ mb: "1.5rem" }}>
+        <Typography fontWeight="510" variant="h4" sx={{ mb: "1.5rem" }}>
           Welcome to MEMQ
         </Typography>
         <Form />

@@ -12,15 +12,17 @@ import Menu from "@mui/material/Menu";
 import SearchIcon from "@mui/icons-material/Search";
 import NotificationsIcon from "@mui/icons-material/Notifications";
 import MoreIcon from "@mui/icons-material/MoreVert";
-import { Link as RouterLink, NavLink, useNavigate } from "react-router-dom";
+import { Link as RouterLink, useNavigate } from "react-router-dom";
 import { useSearchParams } from "react-router-dom";
 import Button from "@mui/material/Button";
 import { useDispatch } from "react-redux";
 import { setPageType } from "state";
 import Divider from "@mui/material/Divider";
-import { setLogout } from "state";
+import { setLogout,setUpdatedUser } from "state";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import { useSelector } from "react-redux";
+import {delNotification,getUserNotifications} from "../axios";
+
 
 
 const StyledMenu = styled((props) => (
@@ -107,10 +109,47 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 }));
 
 export default function NavBar() {
+  const [notifications,setNotifications] = React.useState([]);
+
   const globalUser = useSelector((state) => state.user);
   const dispatch = useDispatch();
+  React.useEffect(()=>{
+    if(globalUser){
+    const interval = setInterval(() => {
+      // Fetch the user notifications every 5 seconds
+      console.log(globalUser._id);
+      getUserNotifications(globalUser._id)
+        .then((response) => {
+          console.log(response.data);
+          setNotifications(response.data);
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    }, 5000);
+
+    // Cleanup the interval on component unmount
+    return () => {
+      clearInterval(interval);
+    };}
+  }, [dispatch]);
   const isAuth = Boolean(useSelector((state) => state.token));
-  const [anchorEl2, setAnchorEl2] = React.useState(null);   
+  const [anchorEl2, setAnchorEl2] = React.useState(null);
+  const [anchorEl3, setAnchorEl3] = React.useState(null);
+
+  const handleNotiMenuOpen = (event) => {
+    setAnchorEl3(event.currentTarget);
+  };
+
+  const  handleNotiMenuClose = async() => {
+    delNotification(globalUser._id);
+    setAnchorEl3(null);
+  };
+
+
+
+  
+   
   const name = globalUser
     ? `${globalUser?.firstName} ${globalUser?.lastName}`
     : "";
@@ -279,6 +318,14 @@ export default function NavBar() {
               disableRipple>
               My Reviews
             </MenuItem>
+            <MenuItem
+              component={RouterLink}
+              to="/coupon"
+              onClick={handleClose}
+              disableRipple
+            >
+              My Coupons
+            </MenuItem>
             <Divider sx={{ my: 0.5 }} />
 
             <MenuItem onClick={handelSignOut} disableRipple>
@@ -291,11 +338,34 @@ export default function NavBar() {
               size="large"
               aria-label="show 17 new notifications"
               color="inherit"
+              onClick={handleNotiMenuOpen}
             >
-              <Badge badgeContent={11} color="error">
+              <Badge badgeContent={notifications?notifications.length:0} color="error">
                 <NotificationsIcon />
               </Badge>
+
             </IconButton>
+            <Menu
+        anchorEl={anchorEl3}
+        open={Boolean(anchorEl3)}
+        onClose={handleNotiMenuClose}
+        anchorOrigin={{
+          vertical: 'top',
+          horizontal: 'right',
+        }}
+        transformOrigin={{
+          vertical: 'top',
+          horizontal: 'right',
+        }}
+        style={{marginTop:10}}
+      >
+        {notifications && notifications.length? notifications.map((notification) => <MenuItem 
+        
+        key={notification} 
+        component={RouterLink}
+        to="/coupon"
+        onClick={handleNotiMenuClose}>{notification}</MenuItem>) :<MenuItem  onClick={handleNotiMenuClose}>no new notifications</MenuItem>}
+      </Menu>
           </MenuItem>
         </>
       )}
@@ -400,10 +470,16 @@ export default function NavBar() {
                   >
                     My Profile
                   </MenuItem>
-                  <MenuItem onClick={handleClose} disableRipple>
+                  <MenuItem
+                  component={RouterLink}
+                  to="/wish"
+                   onClick={handleClose} disableRipple>
                     My Wish Lists
                   </MenuItem>
-                  <MenuItem onClick={handleClose} disableRipple>
+                  <MenuItem 
+                  component={RouterLink}
+                  to="/myReviwes"
+                  onClick={handleClose} disableRipple>
                     My Reviews
                   </MenuItem>
                   <Divider sx={{ my: 0.5 }} />
@@ -413,32 +489,36 @@ export default function NavBar() {
                   </MenuItem>
                 </StyledMenu>
                 <IconButton
-                id="demo-customized-button"
-                aria-controls={open ? "notifications" : undefined}
-                aria-haspopup="true"
-                aria-expanded={open ? "true" : undefined}
-                  size="large"
-                  aria-label="show 17 new notifications"
-                  color="inherit"
-                  onClick={()=>console.log('clicked')}
-                >
-                  <Badge badgeContent={1} color="error">
-                    <NotificationsIcon />
-                  </Badge>
-                </IconButton>
-                <StyledMenu
-                  id="notifications"
-                  MenuListProps={{
-                    "aria-labelledby": "notifications",
-                  }}
-                  anchorEl={anchorEl2}
-                  open={open}
-                  onClose={handleClose}
-                >
-                  <MenuItem onClick={handleClose} disableRipple >
-                  </MenuItem>
+              size="large"
+              
+              color="inherit"
+              onClick={handleNotiMenuOpen}
+            >
+              <Badge badgeContent={notifications && notifications.length} color="error">
+                <NotificationsIcon />
+              </Badge>
 
-                </StyledMenu>
+            </IconButton>
+            <Menu
+        anchorEl={anchorEl3}
+        open={Boolean(anchorEl3)}
+        onClose={handleNotiMenuClose}
+        anchorOrigin={{
+          vertical: 'top',
+          horizontal: 'right',
+        }}
+        transformOrigin={{
+          vertical: 'top',
+          horizontal: 'right',
+        }}
+      >
+        {notifications.length && notifications.map((notification) => <MenuItem 
+                    component={RouterLink}
+                    to="/coupon"
+                     key={notification} 
+                     onClick={handleNotiMenuClose}
+                     >{notification}</MenuItem>) }
+      </Menu>
               </>
             )}
           </Box>

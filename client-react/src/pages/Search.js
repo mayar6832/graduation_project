@@ -27,14 +27,14 @@ function Search() {
     useEffect(() => { getProduct() }, [searchParams]);
     return (
         <>
-
-
+           
+          
             <Stack direction="row" spacing={2} flexWrap="wrap">
                 <PriceFilter />
                 <SearchCard items={items} pages={totalPages} length={numProduct} />
             </Stack>
-
-
+           
+          
         </>
 
 
