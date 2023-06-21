@@ -4,3 +4,13 @@
   display: flex;
   flex-direction: column;
 }
+html,
+body,
+#root,
+.app {
+  height: 100%;
+}
+.app {
+  display: flex;
+  flex-direction: column;
+}

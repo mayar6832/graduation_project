@@ -18,11 +18,11 @@ import Button from "@mui/material/Button";
 import { useDispatch } from "react-redux";
 import { setPageType } from "state";
 import Divider from "@mui/material/Divider";
-import { setLogout,setUpdatedUser } from "state";
+import { setLogout, setUpdatedUser } from "state";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import { useSelector } from "react-redux";
-import {delNotification,getUserNotifications} from "../axios";
-
+import { delNotification, getUserNotifications } from "../axios";
+import { useEffect } from "react";
 
 
 const StyledMenu = styled((props) => (
@@ -109,29 +109,30 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 }));
 
 export default function NavBar() {
-  const [notifications,setNotifications] = React.useState([]);
+  const [notifications, setNotifications] = React.useState([]);
 
   const globalUser = useSelector((state) => state.user);
   const dispatch = useDispatch();
-  React.useEffect(()=>{
-    if(globalUser){
-    const interval = setInterval(() => {
-      // Fetch the user notifications every 5 seconds
-      console.log(globalUser._id);
-      getUserNotifications(globalUser._id)
-        .then((response) => {
-          console.log(response.data);
-          setNotifications(response.data);
-        })
-        .catch((error) => {
-          console.error(error);
-        });
-    }, 5000);
+  React.useEffect(() => {
+    if (globalUser) {
+      const interval = setInterval(() => {
+        // Fetch the user notifications every 5 seconds
+        console.log(globalUser._id);
+        getUserNotifications(globalUser._id)
+          .then((response) => {
+            console.log(response.data);
+            setNotifications(response.data);
+          })
+          .catch((error) => {
+            console.error(error);
+          });
+      }, 5000);
 
-    // Cleanup the interval on component unmount
-    return () => {
-      clearInterval(interval);
-    };}
+      // Cleanup the interval on component unmount
+      return () => {
+        clearInterval(interval);
+      };
+    }
   }, [dispatch]);
   const isAuth = Boolean(useSelector((state) => state.token));
   const [anchorEl2, setAnchorEl2] = React.useState(null);
@@ -141,15 +142,15 @@ export default function NavBar() {
     setAnchorEl3(event.currentTarget);
   };
 
-  const  handleNotiMenuClose = async() => {
+  const handleNotiMenuClose = async () => {
     delNotification(globalUser._id);
     setAnchorEl3(null);
   };
 
 
 
-  
-   
+
+
   const name = globalUser
     ? `${globalUser?.firstName} ${globalUser?.lastName}`
     : "";
@@ -177,7 +178,9 @@ export default function NavBar() {
       navigate(`/search?q=${searchValue}`);
     }
   };
-
+  React.useEffect(() => {
+    setSearchValue(searchParams.get("q") || "");
+  }, [searchParams]);
   const isMenuOpen = Boolean(anchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
 
@@ -189,7 +192,7 @@ export default function NavBar() {
     setMobileMoreAnchorEl(null);
   };
 
-  
+
   const handleMenuClose = () => {
 
     setAnchorEl(null);
@@ -200,15 +203,15 @@ export default function NavBar() {
     setMobileMoreAnchorEl(event.currentTarget);
   };
 
-  const wishList = ()=>{
+  const wishList = () => {
     handleMenuClose();
     navigate('/wish');
-   
+
   }
-  const reviewss = ()=>{
+  const reviewss = () => {
     handleMenuClose();
     navigate('/myReviews');
-   
+
   }
 
   const menuId = "primary-search-account-menu";
@@ -303,15 +306,15 @@ export default function NavBar() {
             >
               My Profile
             </MenuItem>
-            <MenuItem 
-            component={RouterLink}
-            to="/wish"
-            onClick={handleClose}
-            disableRipple
-           >
+            <MenuItem
+              component={RouterLink}
+              to="/wish"
+              onClick={handleClose}
+              disableRipple
+            >
               My WishList
             </MenuItem>
-            <MenuItem 
+            <MenuItem
               component={RouterLink}
               to="/myReviews"
               onClick={handleClose}
@@ -340,32 +343,32 @@ export default function NavBar() {
               color="inherit"
               onClick={handleNotiMenuOpen}
             >
-              <Badge badgeContent={notifications?notifications.length:0} color="error">
+              <Badge badgeContent={notifications ? notifications.length : 0} color="error">
                 <NotificationsIcon />
               </Badge>
 
             </IconButton>
             <Menu
-        anchorEl={anchorEl3}
-        open={Boolean(anchorEl3)}
-        onClose={handleNotiMenuClose}
-        anchorOrigin={{
-          vertical: 'top',
-          horizontal: 'right',
-        }}
-        transformOrigin={{
-          vertical: 'top',
-          horizontal: 'right',
-        }}
-        style={{marginTop:10}}
-      >
-        {notifications && notifications.length? notifications.map((notification) => <MenuItem 
-        
-        key={notification} 
-        component={RouterLink}
-        to="/coupon"
-        onClick={handleNotiMenuClose}>{notification}</MenuItem>) :<MenuItem  onClick={handleNotiMenuClose}>no new notifications</MenuItem>}
-      </Menu>
+              anchorEl={anchorEl3}
+              open={Boolean(anchorEl3)}
+              onClose={handleNotiMenuClose}
+              anchorOrigin={{
+                vertical: 'top',
+                horizontal: 'right',
+              }}
+              transformOrigin={{
+                vertical: 'top',
+                horizontal: 'right',
+              }}
+              style={{ marginTop: 10 }}
+            >
+              {notifications && notifications.length ? notifications.map((notification) => <MenuItem
+
+                key={notification}
+                component={RouterLink}
+                to="/coupon"
+                onClick={handleNotiMenuClose}>{notification}</MenuItem>) : <MenuItem onClick={handleNotiMenuClose}>no new notifications</MenuItem>}
+            </Menu>
           </MenuItem>
         </>
       )}
@@ -382,7 +385,7 @@ export default function NavBar() {
   };
 
   return (
-    <Box sx={{ flexGrow: 1 }}>
+    <Box >
       <AppBar position="static" style={{ background: "#a2a7a7" }}>
         <Toolbar>
           <RouterLink to={"/"} style={{ textDecoration: "none" }}>
@@ -471,15 +474,15 @@ export default function NavBar() {
                     My Profile
                   </MenuItem>
                   <MenuItem
-                  component={RouterLink}
-                  to="/wish"
-                   onClick={handleClose} disableRipple>
+                    component={RouterLink}
+                    to="/wish"
+                    onClick={handleClose} disableRipple>
                     My Wish Lists
                   </MenuItem>
-                  <MenuItem 
-                  component={RouterLink}
-                  to="/myReviwes"
-                  onClick={handleClose} disableRipple>
+                  <MenuItem
+                    component={RouterLink}
+                    to="/myReviwes"
+                    onClick={handleClose} disableRipple>
                     My Reviews
                   </MenuItem>
                   <Divider sx={{ my: 0.5 }} />
@@ -489,36 +492,36 @@ export default function NavBar() {
                   </MenuItem>
                 </StyledMenu>
                 <IconButton
-              size="large"
-              
-              color="inherit"
-              onClick={handleNotiMenuOpen}
-            >
-              <Badge badgeContent={notifications && notifications.length} color="error">
-                <NotificationsIcon />
-              </Badge>
+                  size="large"
 
-            </IconButton>
-            <Menu
-        anchorEl={anchorEl3}
-        open={Boolean(anchorEl3)}
-        onClose={handleNotiMenuClose}
-        anchorOrigin={{
-          vertical: 'top',
-          horizontal: 'right',
-        }}
-        transformOrigin={{
-          vertical: 'top',
-          horizontal: 'right',
-        }}
-      >
-        {notifications.length && notifications.map((notification) => <MenuItem 
+                  color="inherit"
+                  onClick={handleNotiMenuOpen}
+                >
+                  <Badge badgeContent={notifications && notifications.length} color="error">
+                    <NotificationsIcon />
+                  </Badge>
+
+                </IconButton>
+                <Menu
+                  anchorEl={anchorEl3}
+                  open={Boolean(anchorEl3)}
+                  onClose={handleNotiMenuClose}
+                  anchorOrigin={{
+                    vertical: 'top',
+                    horizontal: 'right',
+                  }}
+                  transformOrigin={{
+                    vertical: 'top',
+                    horizontal: 'right',
+                  }}
+                >
+                  {notifications.length && notifications.map((notification) => <MenuItem
                     component={RouterLink}
                     to="/coupon"
-                     key={notification} 
-                     onClick={handleNotiMenuClose}
-                     >{notification}</MenuItem>) }
-      </Menu>
+                    key={notification}
+                    onClick={handleNotiMenuClose}
+                  >{notification}</MenuItem>)}
+                </Menu>
               </>
             )}
           </Box>
