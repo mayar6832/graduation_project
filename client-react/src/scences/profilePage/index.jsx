@@ -1,8 +1,7 @@
-import { Box, useTheme, useMediaQuery, Typography } from "@mui/material";
+import { Box, useTheme, useMediaQuery } from "@mui/material";
 import { useDispatch } from "react-redux";
 import UserWidget from "scences/widgets/UserWidget";
-import NavBar from "./../../components/NavBar";
-import Footer from "./../../components/Footer";
+
 
 const ProfilePage = () => {
   const dispatch = useDispatch();
@@ -14,7 +13,7 @@ const ProfilePage = () => {
 
   return (
     <Box>
-      <NavBar />
+     
       <Box
         width={isNonMobileScreens ? "50%" : "93%"}
         p="2rem"
@@ -24,7 +23,7 @@ const ProfilePage = () => {
       >
         <UserWidget />
       </Box>
-      <Footer />
+    
     </Box>
   );
 };

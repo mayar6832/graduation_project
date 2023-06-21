@@ -1,7 +1,6 @@
 import SearchCard from './../components/SearchCard';
 import PriceFilter from './../components/PriceFilter';
-import NavBar from './../components/NavBar';
-import Footer from './../components/Footer';
+
 import { useParams } from "react-router-dom";
 import axios from 'axios';
 import { useEffect } from 'react';
@@ -35,12 +34,15 @@ function Categories() {
     }, [categoryName,searchParams]);
     return (
         <>
-            <NavBar />
+
+           
             <Stack direction="row" spacing={2} flexWrap="wrap">
+            
+           
                 <PriceFilter />
                 <SearchCard items={items} pages={totalPages} length={numProduct}/>
             </Stack>
-            <Footer />
+            
         </>
 
 

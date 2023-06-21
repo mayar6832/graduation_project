@@ -18,7 +18,7 @@ const UserRev = ( {reviews} ) => {
               
           <Box style={{paddingLeft:15,paddingTop:2, paddingBottom:8}}>
           <Grid container spacing={1}>
-            <Grid item md={12}>
+            <Grid item md={12} xs={12}>
           <p style={{opacity:0.5}} >{`On ${r.productName}`}</p>
             </Grid>
             <Grid item>
@@ -27,8 +27,8 @@ const UserRev = ( {reviews} ) => {
               <Grid item>
               <Typography style={{paddingTop:7}} >  {r.userName}  </Typography>
               </Grid>  
-             <Grid item md ={12}  >
-              <Typography sx={{fontSize:12,padding:1,opacity:0.5}}> 
+             <Grid item md ={12} xs={12} >
+              <Typography sx={{fontSize:12,padding:1,opacity:0.5}} > 
               {new Date(r.date).toLocaleDateString('en-US',options)}
               </Typography>
               </Grid>
@@ -40,7 +40,7 @@ const UserRev = ( {reviews} ) => {
                 }
               </Grid>
               {r.rate!==0 &&
-              <Grid item md={3} >
+              <Grid item   md={3} >
                 <div style={{paddingTop:2}}>
                
               <Rating
@@ -56,7 +56,7 @@ const UserRev = ( {reviews} ) => {
               </Grid>
               }
               
-              <Grid item md={9}>
+              <Grid item  xs={12} md={9}>
                 { r.Comment &&
               <TextField
             variant="standard"

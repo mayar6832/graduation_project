@@ -22,6 +22,7 @@ import { setLogout } from "state";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import { useSelector } from "react-redux";
 
+
 const StyledMenu = styled((props) => (
   <Menu
     elevation={0}
@@ -109,11 +110,12 @@ export default function NavBar() {
   const globalUser = useSelector((state) => state.user);
   const dispatch = useDispatch();
   const isAuth = Boolean(useSelector((state) => state.token));
-  const [anchorEl2, setAnchorEl2] = React.useState(null);
-
+  const [anchorEl2, setAnchorEl2] = React.useState(null);   
   const name = globalUser
     ? `${globalUser?.firstName} ${globalUser?.lastName}`
     : "";
+
+
 
   const open = Boolean(anchorEl2);
   const handleClick = (event) => {
@@ -148,7 +150,9 @@ export default function NavBar() {
     setMobileMoreAnchorEl(null);
   };
 
+  
   const handleMenuClose = () => {
+
     setAnchorEl(null);
     handleMobileMenuClose();
   };
@@ -156,6 +160,17 @@ export default function NavBar() {
   const handleMobileMenuOpen = (event) => {
     setMobileMoreAnchorEl(event.currentTarget);
   };
+
+  const wishList = ()=>{
+    handleMenuClose();
+    navigate('/wish');
+   
+  }
+  const reviewss = ()=>{
+    handleMenuClose();
+    navigate('/myReviews');
+   
+  }
 
   const menuId = "primary-search-account-menu";
   const renderMenu = (
@@ -249,10 +264,19 @@ export default function NavBar() {
             >
               My Profile
             </MenuItem>
-            <MenuItem onClick={handleClose} disableRipple>
-              My Wish Lists
+            <MenuItem 
+            component={RouterLink}
+            to="/wish"
+            onClick={handleClose}
+            disableRipple
+           >
+              My WishList
             </MenuItem>
-            <MenuItem onClick={handleClose} disableRipple>
+            <MenuItem 
+              component={RouterLink}
+              to="/myReviews"
+              onClick={handleClose}
+              disableRipple>
               My Reviews
             </MenuItem>
             <Divider sx={{ my: 0.5 }} />
@@ -268,7 +292,7 @@ export default function NavBar() {
               aria-label="show 17 new notifications"
               color="inherit"
             >
-              <Badge badgeContent={17} color="error">
+              <Badge badgeContent={11} color="error">
                 <NotificationsIcon />
               </Badge>
             </IconButton>
@@ -389,14 +413,32 @@ export default function NavBar() {
                   </MenuItem>
                 </StyledMenu>
                 <IconButton
+                id="demo-customized-button"
+                aria-controls={open ? "notifications" : undefined}
+                aria-haspopup="true"
+                aria-expanded={open ? "true" : undefined}
                   size="large"
                   aria-label="show 17 new notifications"
                   color="inherit"
+                  onClick={()=>console.log('clicked')}
                 >
-                  <Badge badgeContent={17} color="error">
+                  <Badge badgeContent={1} color="error">
                     <NotificationsIcon />
                   </Badge>
                 </IconButton>
+                <StyledMenu
+                  id="notifications"
+                  MenuListProps={{
+                    "aria-labelledby": "notifications",
+                  }}
+                  anchorEl={anchorEl2}
+                  open={open}
+                  onClose={handleClose}
+                >
+                  <MenuItem onClick={handleClose} disableRipple >
+                  </MenuItem>
+
+                </StyledMenu>
               </>
             )}
           </Box>

@@ -1,13 +1,10 @@
 import SearchCard from './../components/SearchCard';
 import PriceFilter from './../components/PriceFilter';
-import NavBar from './../components/NavBar';
-import Footer from './../components/Footer';
 import { useSearchParams } from "react-router-dom";
 import axios from 'axios';
 import { useState } from 'react';
 import { useEffect } from 'react';
 import { Stack } from '@mui/material';
-
 
 function Search() {
     const [searchParams] = useSearchParams();
@@ -16,7 +13,7 @@ function Search() {
     const [numProduct, setNumProduct] = useState([]);
     const getProduct = () => {
         axios.post(`http://localhost:3001/product/search_product?page=${searchParams.get('page')}`,
-            { "search": searchParams.get("q") , "maxPrice": searchParams.get("priceto"), "minPrice": searchParams.get("pricefrom") })
+            { "search": searchParams.get("q"), "maxPrice": searchParams.get("priceto"), "minPrice": searchParams.get("pricefrom") })
             .then(res => {
                 console.log(res.data.data)
                 setTotalPages(res.data.total_pages)
@@ -30,14 +27,14 @@ function Search() {
     useEffect(() => { getProduct() }, [searchParams]);
     return (
         <>
-            <NavBar />
-          
+
+
             <Stack direction="row" spacing={2} flexWrap="wrap">
                 <PriceFilter />
                 <SearchCard items={items} pages={totalPages} length={numProduct} />
             </Stack>
-           
-            <Footer />
+
+
         </>
 
 

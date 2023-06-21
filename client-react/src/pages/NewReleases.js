@@ -1,7 +1,5 @@
 import SearchCard from "./../components/SearchCard";
 import PriceFilter from "./../components/PriceFilter";
-import NavBar from "./../components/NavBar";
-import Footer from "./../components/Footer";
 import { useSearchParams } from "react-router-dom";
 import axios from "axios";
 import { useState } from "react";
@@ -41,14 +39,14 @@ function NewReleases() {
     }, [searchParams]);
     return (
         <>
-            <NavBar />
+
 
             <Stack direction="row" spacing={2}>
                 <PriceFilter />
                 <SearchCard items={items} pages={totalPages} length={numProduct} />
             </Stack>
 
-            <Footer />
+
         </>
     );
 }
