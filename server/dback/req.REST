@@ -1,0 +1,23 @@
+### ACCOUNTS ###
+GET http://localhost:5500/api/items
+Content-Type: application/json
+###
+
+
+DELETE http://localhost:5500/api/item/64758bce9d13d48367733c19
+Content-Type: application/json
+###
+
+### COMMENTS ###
+
+
+GET http://localhost:5500/api/comments
+Content-Type: application/json
+###
+
+
+DELETE http://localhost:5500/api/comments/647be43edcc91c76e5c9110f
+Content-Type: application/json
+###
+
+

@@ -9,8 +9,7 @@ import json
 client = MongoClient('mongodb+srv://zakariayara40:suieySxjWh1SYC04@cluster0.hysfcd7.mongodb.net/test?retryWrites=true&w=majority')
 db = client['test']
 collection = db['products']
-# data = collection.find({})
-# products_list = list(data)
+# Read the product ID passed from the Express backend
 product_name = sys.argv[1]
 product_category= sys.argv[2]
 
@@ -18,34 +17,15 @@ data = collection.find({"categoryName":product_category})
 products_list = list(data)
 # print(products_list)
 products_df = pd.DataFrame(products_list, columns=['name', 'desc', 'image', 'url', 'brand', 'isBestSeller', 'price', 'priceSymbol', 'fullDescription', 'productCategory', 'productInformation', 'categoryName', 'provider', 'average_rating', 'reviews', 'favourite', 'alert', 'newrelease'])
-
-# Read the product ID passed from the Express backend
-# product_name = sys.argv[1]
-# product_category= sys.argv[2]
-
-
-
 # Preprocess the product descriptions
 products_df['processed_desc'] = products_df['fullDescription'].astype(str).apply(lambda x: x.lower())
-
-# products_df['processed_desc'] = products_df['processed_desc'].str.replace('[^\w\s]', '')  # Remove punctuation
-
-# Convert categorical variables to numerical representations if needed
-
-
 # Create TF-IDF vectorizer
-# stop_words = list(ENGLISH_STOP_WORDS)
 tfidf = TfidfVectorizer()
-# print(products_df['processed_desc'])
-# print(tfidf)
 tfidf_matrix = tfidf.fit_transform(products_df['processed_desc'])
-
 # Compute cosine similarity matrix
 cosine_sim = cosine_similarity(tfidf_matrix, tfidf_matrix)
-
 def get_similar_items(product_name):
     # Get the index of the product in the dataframe
-    # print(products_df)
     product_index = products_df.index[products_df['name'] == product_name][0]
     
     # Get the similarity scores of the product with all other products

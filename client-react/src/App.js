@@ -15,6 +15,11 @@ import UserWishList from "pages/UserWishList";
 import NavBar from "./components/NavBar";
 import Footer from "./components/Footer";
 import CouponPage from "pages/CouponPage";
+import AppLayout from "./AppLayout";
+import DashLayout from "./DashLayout";
+import Dashboard from "./pages/Dashboard";
+import Customers from "./pages/Customers";
+import Comments from "pages/Comments";
 
 function App() {
   // const mode = useSelector((state) => state.mode);
@@ -24,24 +29,31 @@ function App() {
     <div className="app">
 
       <BrowserRouter>
-        <NavBar />
+      
         {/* <ThemeProvider theme={theme}> */}
         {/* <CssBaseline /> */}
         <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/coupon" element={isAuth ?<CouponPage />: <Navigate to="/auth" />} />
-          <Route path="/search" element={<Search />} />
-          <Route path="category/:categoryName" element={<Categories />} />
-          <Route path="/product/:id" element={isAuth ?<ProductPage />: <Navigate to="/auth" />} />
-          <Route path="/BestSelling" element={<BestSelling />} />
-          <Route path="/NewReleases" element={<NewReleases />} />
-          <Route path="/myReviews" element={isAuth ?<UserReviews />: <Navigate to="/auth" />} />
-          <Route path="/wish" element={isAuth ?<UserWishList />: <Navigate to="/auth" />} />
+          <Route path="/" element={
+          <AppLayout>
+            <Home />
+          </AppLayout>} />
+          <Route path="/coupon" element={isAuth ?<AppLayout><CouponPage /></AppLayout> : <Navigate to="/auth" />} />
+          <Route path="/search" element={<AppLayout><Search /></AppLayout>} />
+          <Route path="category/:categoryName" element={<AppLayout> <Categories /> </AppLayout>} />
+          <Route path="/product/:id" element={isAuth ?<AppLayout><ProductPage /></AppLayout>: <Navigate to="/auth" />} />
+          <Route path="/BestSelling" element={<AppLayout><BestSelling /></AppLayout>} />
+          <Route path="/NewReleases" element={<AppLayout><NewReleases /></AppLayout>} />
+          <Route path="/myReviews" element={isAuth ?<AppLayout><UserReviews /></AppLayout>: <Navigate to="/auth" />} />
+          <Route path="/wish" element={isAuth ?<AppLayout><UserWishList /></AppLayout>: <Navigate to="/auth" />} />
           <Route path="/auth" element={!isAuth ? < Loginpage /> : <Navigate to="/" />} />
           <Route path="/admin" element={<Adminloginpage />} />
-          <Route path="/profile" element={isAuth ? <ProfilePage /> : <Navigate to="/auth" />} />
+          <Route path="/profile" element={isAuth ?<AppLayout><ProfilePage /></AppLayout>  : <Navigate to="/auth" />} />
+          <Route path="/dashHome" element={<DashLayout><Dashboard/></DashLayout>} />
+          <Route path="/customers" element={<DashLayout><Customers/></DashLayout>}/>
+          <Route path="/comments" element={<DashLayout><Comments/></DashLayout>}/>
+           
         </Routes>
-        <Footer />
+       
         {/* </ThemeProvider> */}
       </BrowserRouter>
     </div>

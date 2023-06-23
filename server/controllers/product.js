@@ -1,6 +1,7 @@
 import { spawn } from 'child_process';
 import product from '../models/products.js';
 import User from '../models/User.js';
+import Review from '../models/ReviewMessage.js'
 //search product 
 const searchProduct = async (req, res) => {
   try {
@@ -48,6 +49,7 @@ const searchProduct = async (req, res) => {
     const total_pages = Math.ceil(query.length / limit) || 1;
     const length = query.length;
     if (product_data.length > 0) {
+      product_data.sort((a, b) => a.price - b.price);
       res.status(200).send({
         success: true,
         msg: "products details",
@@ -93,6 +95,7 @@ const searchCategory = async (req, res) => {
     const total_pages = Math.ceil(query.length / limit) || 1;
     const length = query.length;
     if (product_data.length > 0) {
+      product_data.sort((a, b) => a.price - b.price);
       res.status(200).send({
         success: true, msg: "products details", total_pages, page, length, data: product_data
       })
@@ -100,10 +103,7 @@ const searchCategory = async (req, res) => {
       res.status(200).send({ success: true, msg: "products not found!" })
     }
   }
-  catch (error) {
-    res.status(404).send({ success: false, msg: error.message })
-  }
-}
+  catch (error) { res.status(404).send({ success: false, msg: error.message })}}
 // gatting one product by its id
 const getProduct = async (req, res) => {
   try {
@@ -112,71 +112,47 @@ const getProduct = async (req, res) => {
     const prod = await product.findById(id);
     const user = await User.findById(userId);
     const prodName = prod.name;
-
     const alreadyExists = await user.wishlist.some((produ) => produ._id == id);
-    if (alreadyExists) {
-      prod.favourite = true;
-    }
-
+    if (alreadyExists) {prod.favourite = true; }
     const alreadyExAlerts = await user.alerts.some((produ) => produ._id == id);
-    if (alreadyExAlerts) {
-      prod.alert = true;
-    }
-
+    if (alreadyExAlerts) {prod.alert = true;}
     if (prod.recommendations.length == 5) {
       const recs = await getProductsByName(prod.recommendations)
       //recs=filterCheapestProducts(recs);
       res.status(200).json({ data: prod, recommended: recs });
     } else {
       // this is the link for python excutable  
-      const pythonExecutable = '/home/akram/anaconda3/bin/python3';
+      const pythonExecutable = '/Users/omar/anaconda3/bin/python';
       const pythonScript = './controllers/recommendation.py';
       const args = [prodName, prod.categoryName];
-
       const pythonProcess = spawn(pythonExecutable, [pythonScript, ...args]);
-
       let recommendations = [];
-
       // Handle the output from the Python script
       pythonProcess.stdout.on('data', (data) => {
-
-        recommendations = data.toString().trim().split('\n'); // Convert the output to an array of strings
-      });
-
+        recommendations = data.toString().trim().split('\n');});
       // Handle errors that occur during the execution of the Python script
       pythonProcess.on('error', (error) => {
         console.error(`Error executing the Python script: ${error.message}`);
-        res.status(500).json({ message: 'Error executing the Python script' });
-      });
-
+        res.status(500).json({ message: 'Error executing the Python script' }); });
       // Handle the end of the Python script execution
       pythonProcess.on('close', async (code) => {
         if (code === 0) {
           // Python script executed successfully
           console.log('Python script execution completed');
           recommendations = JSON.parse(recommendations);
-          // console.log(recommendations);
           prod.recommendations = recommendations; // Update the recommendations in the product
-          // console.log(recommendations);
-
-
           try {
             const updatedProduct = await product.findByIdAndUpdate(id, prod, { new: true });
             const recs = await getProductsByName(prod.recommendations)
-            // console.log(recs)
-
+          
             res.status(200).send({ data: updatedProduct, recommended: recs });
           } catch (error) {
             console.error('Error saving updated product:', error);
-            res.status(500).json({ message: 'Failed to save updated product' });
-          }
+            res.status(500).json({ message: 'Failed to save updated product' }); }
         } else {
           // Error occurred in the Python script
           console.error(`Python script execution failed with code ${code}`);
-          res.status(500).json({ message: 'Python script execution failed' });
-        }
-      });
-    }
+          res.status(500).json({ message: 'Python script execution failed' });}}); }
   } catch (error) {
     console.log(error.message);
     res.status(404).json({ message: error.message });
@@ -185,7 +161,6 @@ const getProduct = async (req, res) => {
 
 
 const favProduct = async (req, res) => {
-
   try {
     const { id } = req.params;
     const { userId } = req.body;
@@ -241,14 +216,11 @@ const revProduct = async (req, res) => {
   const { id } = req.params;  //product id
   const { value } = req.body;
   const userId = value.userId; // user id 
-
   const prod = await product.findById(id);
   // pushing the review object into product reviews
   prod.reviews.push(value);
   const user = await User.findById(userId);
   value.productName = prod.name;
-
-
   // pushing the review object to review array in users table 
   user.reviews.push(value);
   console.log(user.reviews.length)
@@ -258,20 +230,45 @@ const revProduct = async (req, res) => {
     console.log(user.notifications);
   }
   const rateing = clacAverageRating(prod.reviews);
-
   prod.average_rating = rateing;
   // updating product and user 
   const updatedProduct = await product.findByIdAndUpdate(id, prod, { new: true });
   const updatedUser = await User.findByIdAndUpdate(userId, user, { new: true });
-
-  res.json(updatedProduct);
+  res.json(updatedProduct);}
+const getAllItems = async (req, res) => {
+  try {
+    const allAccountItems = (await product.find({
+      $expr: {
+        $gt: [{ $size: "$reviews" }, 0]
+      }
+    }));    // reviews: { $exists: true }
+    res.status(200).json(allAccountItems)
+  } catch (err) {
+    res.json(err);
+  }
 }
+const productComments = async (req, res) => {
+  try {
+    const { pID } = req.body;
+    console.log(pID);
+    //find the item by its id and delete it
+    const deleteItem = await product.updateOne({ "_id": pID }, { $pull: { "reviews": { "_id": req.params.id } } });
+    const allAccountItems = (await product.find({
+      $expr: {
+        $gt: [{ $size: "$reviews" }, 0]
+      }
+    }));
+    res.status(200).json(allAccountItems);
+  } catch (err) {
+    res.json(err);
+  }
+}
+
 // calculating the average rating
 function clacAverageRating(revis) {
   const rev = revis;
   var one, two, three, four, five;
   one = two = three = four = five = 0;
-
   revis.forEach(rev => {
     switch (rev.rate) {
       case 1:
@@ -294,11 +291,7 @@ function clacAverageRating(revis) {
         break;
     }
   });
-
-
-
   var total = one + two + three + four + five;
-
   //the following weighted function calculates average rating
   const average_rating = (1 * one + 2 * two + 3 * three + 4 * four + 5 * five) / total;
   return average_rating;
@@ -353,6 +346,8 @@ const productController = {
   favProduct,
   revProduct,
   alertProduct,
+  getAllItems,
+  productComments,
 
 
 

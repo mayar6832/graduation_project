@@ -9,5 +9,7 @@ router.post('/:id',productController.getProduct) ;
 router.put('/:id/fav',productController.favProduct);
 router.put('/:id/alert',productController.alertProduct);
 router.post('/:id/rev',productController.revProduct);
+router.get('/api/comments',productController.getAllItems);
+router.post('/api/comments/:id',productController.productComments);
 //export router
 export default router;

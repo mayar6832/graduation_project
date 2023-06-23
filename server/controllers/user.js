@@ -139,6 +139,23 @@ try {
   res.status(405).json({msg:error.message});
 }
 }
+export const getAllUsers = async (req, res) => {
+  try {
+    const allAccountItems = await User.find({});
+    res.status(200).json(allAccountItems)
+  } catch (err) {
+    res.json("err"+err);
+  }
+}
+export const delUser = ( async (req, res) => {
+  try {
+    //find the item by its id and delete it
+    const deleteItem = await User.findByIdAndDelete(req.params.id);
+    res.status(200).json('Item Deleted');
+  } catch (err) {
+    res.json(err);
+  }
+})
 
 
  async function  getProductsByIds(ids) {

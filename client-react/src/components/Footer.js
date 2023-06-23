@@ -23,7 +23,7 @@ const style = {
 function Footer() {
 
   return (
-    <>
+    <div className="footer">
       <Stack
         pt="1rem"
         pb="1rem"
@@ -84,7 +84,7 @@ function Footer() {
           </Typography>
         </Stack>
       </Stack>
-    </>
+    </div>
 
 
   );

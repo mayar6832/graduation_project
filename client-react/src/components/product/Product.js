@@ -44,7 +44,7 @@ const Product = ({ product,recomendations }) => {
    const toggleAlert = ()=>{
     alertProduct(userId,product._id).then(response=>setAlert(response.data));
    }
-  // const url = window.location.href;
+  const url = window.location.href;
   
   // console.log(url)
   return (
@@ -56,11 +56,9 @@ const Product = ({ product,recomendations }) => {
       columnSpacing={{ xs: 1, sm: 2, md: 3 }}
       sx={{ mt: 2 }}
     >
-      
       {/* product image column */}
       <Grid item height={350} xs={10} md={3}>
-        <img
-           
+        <img  
           className="image"
           alt="sss"
           src={product.image}
@@ -77,18 +75,14 @@ const Product = ({ product,recomendations }) => {
               {/* items of the left coulumn */}
               <Grid item xs={12} md={12}>
               <Rating  value={ product.average_rating || 0} readOnly />
-              </Grid>
-              
-              {/* <Grid item xs={12} md={12}>
-                <p>{`this price was updated ${product.lastupdate} ago`}</p>
-              </Grid> */}
+              </Grid>   
               <Grid item xs={12} md={12}>
               <Button
               onClick={toggleFav}
               className="btn"
                startIcon={fav?<FavoriteOutlinedIcon style={{cursor:'pointer',display:'flex'}} onClick={toggleFav} sx={{color:'red'}} />:<FavoriteBorderIcon style={{cursor:'pointer'}}  onClick={toggleFav}/>} 
               >
-              {fav? <p>REMOVE FROM WISHLIST</p> :<p>Add TO WISHLIST</p>}    
+              {fav? <p style={{marginBottom:0}}>REMOVE FROM WISHLIST</p> :<p style={{marginBottom:0}}>Add TO WISHLIST</p>}    
               </Button>
               </Grid>
               <Grid item xs={12} md={12}>
@@ -97,7 +91,7 @@ const Product = ({ product,recomendations }) => {
               onClick={toggleAlert}
                startIcon={alert?<NotificationsIcon style={{cursor:'pointer',display:'flex'}} onClick={toggleAlert} sx={{color:'green'}} />:<NotificationsOutlinedIcon style={{cursor:'pointer'}}  onClick={toggleAlert}/>} 
               >
-               {alert? <p>REMOVE PRICE ALERT</p>  :<p>SET PRICE ALERT</p>}
+               {alert? <p style={{marginBottom:0}}>REMOVE PRICE ALERT</p>  :<p style={{marginBottom:0}}>SET PRICE ALERT</p>}
               </Button>
               </Grid>
             </Grid>
@@ -174,7 +168,7 @@ const Product = ({ product,recomendations }) => {
               
               <FacebookShareButton
               
-                url={'https://www.youtube.com/watch?v=92S4zgXN17o'}
+                url={url}
                 quote={'Dummy text!'}
                 hashtag="#MEMQ">
                   
@@ -185,7 +179,7 @@ const Product = ({ product,recomendations }) => {
               <Grid item md={1} xs={2}>
     
             <TwitterShareButton
-              url={'https://www.example.com'}
+              url={url}
               quote={'come and check this product!'}
               hashtag="#MEMQ"
 
@@ -223,7 +217,7 @@ const Product = ({ product,recomendations }) => {
       
        <Grid item md={10} xs={10}>
         
-        <PriceChart prices={product.oldPrices} />
+        { product.oldPrices && <PriceChart prices={product.oldPrices} current={product.price} />}
         
        
        </Grid>

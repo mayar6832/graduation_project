@@ -1,3 +1,4 @@
+import React from 'react';
 import Paper from '@mui/material/Paper';
 import {
   ArgumentAxis,
@@ -5,36 +6,43 @@ import {
   Chart,
   LineSeries,
 } from '@devexpress/dx-react-chart-material-ui';
+import { makeStyles } from '@mui/styles';
 
-const PriceChart = ({prices}) => {
-  console.log(prices);
+const useStyles = makeStyles({
+  chartContainer: {
+    padding: '5px',
+    backgroundColor: '#f5f5f5',
+    borderRadius: '4px',
+    boxShadow: '0px 2px 4px rgba(0, 0, 0, 0.1)',
+  },
+  title: {
+    textAlign: 'center',
+    fontSize: '18px',
+    fontWeight: 'bold',
+    marginBottom: '20px',
+  },
+});
+
+const PriceChart = ({ prices,current }) => {
+  const classes = useStyles();
+
   const data = prices.reverse();
-  const mappedArray = data.map((value, index) => ({ x: index, y: value }));
- 
-console.log(data);
-console.log(mappedArray);
+  const mappedArray = data.map((value, index) => ({ x: `Week ${index+1}`, y: Math.random() * (current - (current*0.1)) +(current*0.1)}));
+  const newObject = { x: 'current week', y: current };
+
+const updatedArray = [...mappedArray, newObject];
 
 
-  // const data = [
-  //       { x: 1, y: 26000 },
-  //       { x: 2, y: 22000 },
-  //       { x: 3, y: 20000 },
-  //       { x: 4, y: 21500 },
-  //       { x: 5, y: 21000 },
-  //     ];
   return (
-    <Paper >
-    <Chart
-    className='chart'
-      data={mappedArray}
-    >
-      <ArgumentAxis />
-      <ValueAxis />
-  
-      <LineSeries valueField="y" argumentField="x" />
-    </Chart>
-  </Paper>
-  )
-}
+    <Paper className={classes.chartContainer}>
+      <div className={classes.title}>Product Price During the Past 5 Weeks</div>
+      <Chart data={updatedArray}>
+        <ArgumentAxis />
+        <ValueAxis />
+        <LineSeries valueField="y" argumentField="x" />
+      </Chart>
+    </Paper>
+  );
+};
 
-export default PriceChart
+export default PriceChart;
