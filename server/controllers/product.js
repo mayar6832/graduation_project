@@ -40,6 +40,7 @@ const searchProduct = async (req, res) => {
       .find({
         $and: filters,
       })
+      .sort({ price: 1 })
       .skip(skip)
       .limit(limit);
     const query = await product.find({
@@ -85,7 +86,7 @@ const searchCategory = async (req, res) => {
       {
         "$and": filters
       }
-    ).skip(skip).limit(limit);
+    ).sort({ price: 1 }).skip(skip).limit(limit);
     const query = await product.find(
       {
         "$and": filters
@@ -103,7 +104,8 @@ const searchCategory = async (req, res) => {
       res.status(200).send({ success: true, msg: "products not found!" })
     }
   }
-  catch (error) { res.status(404).send({ success: false, msg: error.message })}}
+  catch (error) { res.status(404).send({ success: false, msg: error.message }) }
+}
 // gatting one product by its id
 const getProduct = async (req, res) => {
   try {
@@ -113,9 +115,9 @@ const getProduct = async (req, res) => {
     const user = await User.findById(userId);
     const prodName = prod.name;
     const alreadyExists = await user.wishlist.some((produ) => produ._id == id);
-    if (alreadyExists) {prod.favourite = true; }
+    if (alreadyExists) { prod.favourite = true; }
     const alreadyExAlerts = await user.alerts.some((produ) => produ._id == id);
-    if (alreadyExAlerts) {prod.alert = true;}
+    if (alreadyExAlerts) { prod.alert = true; }
     if (prod.recommendations.length == 5) {
       const recs = await getProductsByName(prod.recommendations)
       //recs=filterCheapestProducts(recs);
@@ -129,11 +131,13 @@ const getProduct = async (req, res) => {
       let recommendations = [];
       // Handle the output from the Python script
       pythonProcess.stdout.on('data', (data) => {
-        recommendations = data.toString().trim().split('\n');});
+        recommendations = data.toString().trim().split('\n');
+      });
       // Handle errors that occur during the execution of the Python script
       pythonProcess.on('error', (error) => {
         console.error(`Error executing the Python script: ${error.message}`);
-        res.status(500).json({ message: 'Error executing the Python script' }); });
+        res.status(500).json({ message: 'Error executing the Python script' });
+      });
       // Handle the end of the Python script execution
       pythonProcess.on('close', async (code) => {
         if (code === 0) {
@@ -144,15 +148,19 @@ const getProduct = async (req, res) => {
           try {
             const updatedProduct = await product.findByIdAndUpdate(id, prod, { new: true });
             const recs = await getProductsByName(prod.recommendations)
-          
+
             res.status(200).send({ data: updatedProduct, recommended: recs });
           } catch (error) {
             console.error('Error saving updated product:', error);
-            res.status(500).json({ message: 'Failed to save updated product' }); }
+            res.status(500).json({ message: 'Failed to save updated product' });
+          }
         } else {
           // Error occurred in the Python script
           console.error(`Python script execution failed with code ${code}`);
-          res.status(500).json({ message: 'Python script execution failed' });}}); }
+          res.status(500).json({ message: 'Python script execution failed' });
+        }
+      });
+    }
   } catch (error) {
     console.log(error.message);
     res.status(404).json({ message: error.message });
@@ -234,7 +242,8 @@ const revProduct = async (req, res) => {
   // updating product and user 
   const updatedProduct = await product.findByIdAndUpdate(id, prod, { new: true });
   const updatedUser = await User.findByIdAndUpdate(userId, user, { new: true });
-  res.json(updatedProduct);}
+  res.json(updatedProduct);
+}
 const getAllItems = async (req, res) => {
   try {
     const allAccountItems = (await product.find({
